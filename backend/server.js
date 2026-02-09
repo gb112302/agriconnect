@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
+const { MongoMemoryServer } = require('mongodb-memory-server');
 
 // Load environment variables
 dotenv.config();
@@ -13,13 +14,30 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Database connection
-mongoose.connect(process.env.MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-.then(() => console.log('✅ MongoDB connected successfully'))
-.catch((err) => console.error('❌ MongoDB connection error:', err));
+// Database connection with in-memory fallback
+async function connectDB() {
+  try {
+    // Try to connect to MongoDB Atlas or local MongoDB
+    await mongoose.connect(process.env.MONGODB_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      serverSelectionTimeoutMS: 5000
+    });
+    console.log('✅ MongoDB connected successfully');
+  } catch (err) {
+    console.log('⚠️  MongoDB connection failed, using in-memory database...');
+    // Use in-memory database as fallback
+    const mongod = await MongoMemoryServer.create();
+    const uri = mongod.getUri();
+    await mongoose.connect(uri, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log('✅ In-memory MongoDB connected successfully');
+  }
+}
+
+connectDB();
 
 // Routes
 app.use('/api/auth', require('./routes/auth'));
@@ -35,8 +53,8 @@ app.get('/api/health', (req, res) => {
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).json({ 
-    success: false, 
+  res.status(500).json({
+    success: false,
     message: 'Something went wrong!',
     error: process.env.NODE_ENV === 'development' ? err.message : undefined
   });

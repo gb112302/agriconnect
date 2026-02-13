@@ -10,7 +10,13 @@ dotenv.config();
 const app = express();
 
 // Middleware
-app.use(cors());
+const corsOptions = {
+  origin: process.env.NODE_ENV === 'production'
+    ? [process.env.FRONTEND_URL, 'https://your-app.vercel.app']
+    : ['http://localhost:3000', 'http://localhost:3001'],
+  credentials: true
+};
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

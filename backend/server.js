@@ -12,7 +12,7 @@ const app = express();
 // Middleware
 const corsOptions = {
   origin: process.env.NODE_ENV === 'production'
-    ? [process.env.FRONTEND_URL, 'https://your-app.vercel.app']
+    ? [process.env.FRONTEND_URL, 'https://agriconnectgb.netlify.app']
     : ['http://localhost:3000', 'http://localhost:3001'],
   credentials: true
 };

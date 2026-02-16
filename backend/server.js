@@ -2,32 +2,13 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
-const http = require('http');
-const socketIo = require('socket.io');
-const { MongoMemoryServer } = require('mongodb-memory-server');
-const socketHandler = require('./socket/socketHandler');
 
 // Load environment variables
 dotenv.config();
 
 const app = express();
-const server = http.createServer(app);
 
-// Socket.io setup
-const io = socketIo(server, {
-  cors: {
-    origin: process.env.NODE_ENV === 'production'
-      ? [process.env.FRONTEND_URL, 'https://agriconnectgb.netlify.app']
-      : ['http://localhost:3000', 'http://localhost:3001'],
-    credentials: true
-  }
-});
-
-// Initialize socket handler
-socketHandler(io);
-
-// Make io accessible to routes
-app.set('io', io);
+console.log('🚀 Starting AgriConnect Backend Server...');
 
 // Middleware
 const corsOptions = {
@@ -40,45 +21,119 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Database connection with in-memory fallback
+console.log('✅ Middleware loaded');
+
+// Database connection
 async function connectDB() {
   try {
-    // Try to connect to MongoDB Atlas or local MongoDB
-    await mongoose.connect(process.env.MONGODB_URI, {
-      serverSelectionTimeoutMS: 5000
-    });
-    console.log('✅ MongoDB connected successfully');
+    const mongoUri = process.env.MONGODB_URI;
+
+    if (!mongoUri) {
+      console.log('⚠️  No MONGODB_URI found, using in-memory database...');
+      const { MongoMemoryServer } = require('mongodb-memory-server');
+      const mongod = await MongoMemoryServer.create();
+      const uri = mongod.getUri();
+      await mongoose.connect(uri);
+      console.log('✅ In-memory MongoDB connected');
+    } else {
+      await mongoose.connect(mongoUri, {
+        serverSelectionTimeoutMS: 5000
+      });
+      console.log('✅ MongoDB Atlas connected successfully');
+    }
   } catch (err) {
-    console.log('⚠️  MongoDB connection failed, using in-memory database...');
-    // Use in-memory database as fallback
-    const mongod = await MongoMemoryServer.create();
-    const uri = mongod.getUri();
-    await mongoose.connect(uri);
-    console.log('✅ In-memory MongoDB connected successfully');
+    console.error('❌ Database connection error:', err.message);
+    process.exit(1);
   }
 }
 
 connectDB();
 
 // Routes
-app.use('/api/auth', require('./routes/auth'));
-app.use('/api/products', require('./routes/products'));
-app.use('/api/orders', require('./routes/orders'));
-app.use('/api/bulk-requests', require('./routes/bulkRequests'));
-app.use('/api/reviews', require('./routes/reviews'));
-app.use('/api/payments', require('./routes/payments'));
-app.use('/api/chat', require('./routes/chat'));
-app.use('/api/analytics', require('./routes/analytics'));
-app.use('/api/admin', require('./routes/admin'));
+console.log('📦 Loading routes...');
+
+try {
+  app.use('/api/auth', require('./routes/auth'));
+  console.log('✅ Auth routes loaded');
+} catch (e) {
+  console.error('❌ Auth routes error:', e.message);
+}
+
+try {
+  app.use('/api/products', require('./routes/products'));
+  console.log('✅ Products routes loaded');
+} catch (e) {
+  console.error('❌ Products routes error:', e.message);
+}
+
+try {
+  app.use('/api/orders', require('./routes/orders'));
+  console.log('✅ Orders routes loaded');
+} catch (e) {
+  console.error('❌ Orders routes error:', e.message);
+}
+
+try {
+  app.use('/api/bulk-requests', require('./routes/bulkRequests'));
+  console.log('✅ Bulk requests routes loaded');
+} catch (e) {
+  console.error('❌ Bulk requests routes error:', e.message);
+}
+
+try {
+  app.use('/api/reviews', require('./routes/reviews'));
+  console.log('✅ Reviews routes loaded');
+} catch (e) {
+  console.error('❌ Reviews routes error:', e.message);
+}
+
+try {
+  app.use('/api/payments', require('./routes/payments'));
+  console.log('✅ Payments routes loaded');
+} catch (e) {
+  console.error('❌ Payments routes error:', e.message);
+}
+
+try {
+  app.use('/api/analytics', require('./routes/analytics'));
+  console.log('✅ Analytics routes loaded');
+} catch (e) {
+  console.error('❌ Analytics routes error:', e.message);
+}
+
+try {
+  app.use('/api/admin', require('./routes/admin'));
+  console.log('✅ Admin routes loaded');
+} catch (e) {
+  console.error('❌ Admin routes error:', e.message);
+}
 
 // Health check route
 app.get('/api/health', (req, res) => {
-  res.json({ status: 'OK', message: 'Farm Marketplace API is running' });
+  res.json({
+    status: 'OK',
+    message: 'AgriConnect API is running',
+    environment: process.env.NODE_ENV || 'development'
+  });
+});
+
+// Root route
+app.get('/', (req, res) => {
+  res.json({
+    message: 'AgriConnect API',
+    version: '1.0.0',
+    endpoints: [
+      '/api/health',
+      '/api/auth',
+      '/api/products',
+      '/api/orders'
+    ]
+  });
 });
 
 // Error handling middleware
 app.use((err, req, res, next) => {
-  console.error(err.stack);
+  console.error('❌ Server error:', err.stack);
   res.status(500).json({
     success: false,
     message: 'Something went wrong!',
@@ -87,7 +142,9 @@ app.use((err, req, res, next) => {
 });
 
 const PORT = process.env.PORT || 5000;
-server.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 Server running on port ${PORT}`);
-  console.log(`📡 Socket.io server ready`);
+  console.log(`📍 API available at http://localhost:${PORT}/api`);
+  console.log(`💚 Health check: http://localhost:${PORT}/api/health`);
+  console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
 });

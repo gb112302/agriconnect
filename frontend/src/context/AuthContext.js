@@ -34,11 +34,45 @@ export const AuthProvider = ({ children }) => {
             localStorage.setItem('user', JSON.stringify(userData));
             setUser(userData);
 
-            return { success: true };
+            return { success: true, user: userData };
         } catch (error) {
             return {
                 success: false,
                 error: error.response?.data?.message || 'Login failed',
+            };
+        }
+    };
+
+    const selectRole = async (role) => {
+        try {
+            const response = await authAPI.selectRole(role);
+            const { user: updatedUser } = response.data;
+
+            localStorage.setItem('user', JSON.stringify(updatedUser));
+            setUser(updatedUser);
+
+            return { success: true };
+        } catch (error) {
+            return {
+                success: false,
+                error: error.response?.data?.message || 'Role selection failed',
+            };
+        }
+    };
+
+    const switchRole = async (role) => {
+        try {
+            const response = await authAPI.switchRole(role);
+            const { user: updatedUser } = response.data;
+
+            localStorage.setItem('user', JSON.stringify(updatedUser));
+            setUser(updatedUser);
+
+            return { success: true };
+        } catch (error) {
+            return {
+                success: false,
+                error: error.response?.data?.message || 'Role switch failed',
             };
         }
     };
@@ -52,7 +86,7 @@ export const AuthProvider = ({ children }) => {
             localStorage.setItem('user', JSON.stringify(newUser));
             setUser(newUser);
 
-            return { success: true };
+            return { success: true, user: newUser };
         } catch (error) {
             return {
                 success: false,
@@ -73,9 +107,12 @@ export const AuthProvider = ({ children }) => {
         login,
         register,
         logout,
+        selectRole,
+        switchRole,
         isAuthenticated: !!user,
-        isFarmer: user?.role === 'farmer',
-        isBuyer: user?.role === 'buyer',
+        needsRoleSelection: user && !user.currentRole,
+        isFarmer: user?.role === 'farmer' || user?.currentRole === 'farmer',
+        isBuyer: user?.role === 'buyer' || user?.currentRole === 'buyer',
     };
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

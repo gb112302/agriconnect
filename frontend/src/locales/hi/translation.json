@@ -1,0 +1,135 @@
+{
+  "app_name": "एग्रीकनेक्ट",
+  "tagline": "खेत से टेबल तक, सीधा और ताजा",
+
+  "nav": {
+    "home": "होम",
+    "products": "उत्पाद",
+    "dashboard": "डैशबोर्ड",
+    "cart": "कार्ट",
+    "login": "लॉगिन",
+    "register": "रजिस्टर",
+    "logout": "लॉगआउट"
+  },
+
+  "auth": {
+    "welcome_back": "वापसी पर स्वागत है",
+    "login_subtitle": "एग्रीकनेक्ट में लॉगिन करें",
+    "email": "ईमेल पता",
+    "password": "पासवर्ड",
+    "remember_me": "मुझे याद रखें",
+    "forgot_password": "पासवर्ड भूल गए?",
+    "login_button": "लॉगिन",
+    "no_account": "खाता नहीं है?",
+    "register_here": "यहां रजिस्टर करें",
+    "logging_in": "लॉगिन हो रहा है..."
+  },
+
+  "dashboard": {
+    "welcome": "स्वागत है",
+    "farmer_welcome": "अपने उत्पाद और ऑर्डर प्रबंधित करें",
+    "buyer_welcome": "ताजा खेत उत्पाद ब्राउज़ करें",
+    "admin_welcome": "प्लेटफॉर्म प्रशासन",
+    "my_products": "मेरे उत्पाद",
+    "add_product": "उत्पाद जोड़ें",
+    "manage_orders": "ऑर्डर प्रबंधित करें",
+    "analytics": "एनालिटिक्स",
+    "browse_products": "उत्पाद ब्राउज़ करें",
+    "my_wishlist": "मेरी विशलिस्ट",
+    "messages": "संदेश",
+    "my_orders": "मेरे ऑर्डर"
+  },
+
+  "products": {
+    "marketplace": "मार्केटप्लेस",
+    "search": "उत्पाद खोजें...",
+    "all_categories": "सभी श्रेणियां",
+    "min_price": "न्यूनतम मूल्य",
+    "max_price": "अधिकतम मूल्य",
+    "sort_by": "क्रमबद्ध करें",
+    "newest": "नवीनतम पहले",
+    "price_low": "मूल्य: कम से अधिक",
+    "price_high": "मूल्य: अधिक से कम",
+    "top_rated": "शीर्ष रेटेड",
+    "no_products": "आपके मानदंड से मेल खाने वाले कोई उत्पाद नहीं मिले।",
+    "loading": "उत्पाद लोड हो रहे हैं...",
+    "per": "प्रति",
+    "in_stock": "स्टॉक में",
+    "out_of_stock": "स्टॉक में नहीं",
+    "view_details": "विवरण देखें",
+    "add_to_cart": "कार्ट में डालें"
+  },
+
+  "product_details": {
+    "back": "उत्पादों पर वापस",
+    "category": "श्रेणी",
+    "description": "विवरण",
+    "variants": "प्रकार",
+    "farmer_details": "किसान विवरण",
+    "available_quantity": "उपलब्ध मात्रा",
+    "add_to_cart": "कार्ट में डालें",
+    "unavailable": "वर्तमान में उपलब्ध नहीं",
+    "login_to_buy": "खरीदने के लिए लॉगिन करें"
+  },
+
+  "cart": {
+    "title": "शॉपिंग कार्ट",
+    "empty": "आपकी कार्ट खाली है",
+    "product": "उत्पाद",
+    "price": "मूल्य",
+    "quantity": "मात्रा",
+    "total": "कुल",
+    "remove": "हटाएं",
+    "subtotal": "उपयोग",
+    "checkout": "चेकआउट पर आगे बढ़ें"
+  },
+
+  "wishlist": {
+    "title": "मेरी विशलिस्ट",
+    "empty": "आपकी विशलिस्ट खाली है",
+    "browse_products": "उत्पाद ब्राउज़ करें",
+    "view_product": "उत्पाद देखें",
+    "remove": "हटाएं"
+  },
+
+  "orders": {
+    "title": "मेरे ऑर्डर",
+    "order_id": "ऑर्डर ID",
+    "date": "तारीख",
+    "total": "कुल",
+    "status": "स्थिति",
+    "view": "देखें",
+    "no_orders": "अभी तक कोई ऑर्डर नहीं"
+  },
+
+  "admin": {
+    "dashboard": "एडमिन डैशबोर्ड",
+    "users": "यूजर प्रबंधन",
+    "moderation": "कंटेंट मॉडरेशन",
+    "total_users": "कुल यूजर्स",
+    "total_orders": "कुल ऑर्डर",
+    "total_revenue": "कुल राजस्व",
+    "total_products": "कुल उत्पाद",
+    "name": "नाम",
+    "email": "ईमेल",
+    "role": "भूमिका",
+    "status": "स्थिति",
+    "actions": "क्रियाएं",
+    "activate": "सक्रिय करें",
+    "deactivate": "निष्क्रिय करें",
+    "delete": "डिलीट करें",
+    "active": "सक्रिय",
+    "inactive": "निष्क्रिय"
+  },
+
+  "common": {
+    "save": "सेव करें",
+    "cancel": "रद्द करें",
+    "delete": "डिलीट करें",
+    "edit": "एडिट करें",
+    "submit": "सबमिट करें",
+    "loading": "लोड हो रहा है...",
+    "error": "त्रुटि",
+    "success": "सफलता"
+  }
+}

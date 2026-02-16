@@ -1,0 +1,135 @@
+{
+  "app_name": "એગ્રીકનેક્ટ",
+  "tagline": "ખેતરથી ટેબલ, સીધું અને તાજું",
+
+  "nav": {
+    "home": "હોમ",
+    "products": "ઉત્પાદનો",
+    "dashboard": "ડેશબોર્ડ",
+    "cart": "કાર્ટ",
+    "login": "લોગિન",
+    "register": "રજિસ્ટર",
+    "logout": "લોગઆઉટ"
+  },
+
+  "auth": {
+    "welcome_back": "ફરી સ્વાગત છે",
+    "login_subtitle": "એગ્રીકનેક્ટમાં લોગિન કરો",
+    "email": "ઇમેઇલ સરનામું",
+    "password": "પાસવર્ડ",
+    "remember_me": "મને યાદ રાખો",
+    "forgot_password": "પાસવર્ડ ભૂલી ગયા?",
+    "login_button": "લોગિન",
+    "no_account": "એકાઉન્ટ નથી?",
+    "register_here": "અહીં રજીસ્ટર કરો",
+    "logging_in": "લોગિન થઈ રહ્યું છે..."
+  },
+
+  "dashboard": {
+    "welcome": "સ્વાગત છે",
+    "farmer_welcome": "તમારા ઉત્પાદનો અને ઓર્ડર મેનેજ કરો",
+    "buyer_welcome": "તાજા ખેત ઉત્પાદનો બ્રાઉઝ કરો",
+    "admin_welcome": "પ્લેટફોર્મ એડમિનિસ્ટ્રેશન",
+    "my_products": "મારા ઉત્પાદનો",
+    "add_product": "ઉત્પાદન ઉમેરો",
+    "manage_orders": "ઓર્ડર મેનેજ કરો",
+    "analytics": "એનાલિટિક્સ",
+    "browse_products": "ઉત્પાદનો બ્રાઉઝ કરો",
+    "my_wishlist": "મારી વિશલિસ્ટ",
+    "messages": "સંદેશા",
+    "my_orders": "મારા ઓર્ડર"
+  },
+
+  "products": {
+    "marketplace": "માર્કેટપ્લેસ",
+    "search": "ઉત્પાદનો શોધો...",
+    "all_categories": "બધી શ્રેણીઓ",
+    "min_price": "લઘુત્તમ કિંમત",
+    "max_price": "મહત્તમ કિંમત",
+    "sort_by": "ક્રમબદ્ધ કરો",
+    "newest": "સૌથી નવું પ્રથમ",
+    "price_low": "કિંમત: ઓછીથી વધુ",
+    "price_high": "કિંમત: વધુથી ઓછી",
+    "top_rated": "ટોચના રેટેડ",
+    "no_products": "તમારા માપદંડને મેળ ખાતા કોઈ ઉત્પાદનો મળ્યા નથી.",
+    "loading": "ઉત્પાદનો લોડ થઈ રહ્યા છે...",
+    "per": "દીઠ",
+    "in_stock": "સ્ટોકમાં",
+    "out_of_stock": "સ્ટોકમાં નથી",
+    "view_details": "વિગતો જુઓ",
+    "add_to_cart": "કાર્ટમાં ઉમેરો"
+  },
+
+  "product_details": {
+    "back": "ઉત્પાદનો પર પાછા",
+    "category": "શ્રેણી",
+    "description": "વર્ણન",
+    "variants": "પ્રકારો",
+    "farmer_details": "ખેડૂતની વિગતો",
+    "available_quantity": "ઉપલબ્ધ જથ્થો",
+    "add_to_cart": "કાર્ટમાં ઉમેરો",
+    "unavailable": "હાલમાં ઉપલબ્ધ નથી",
+    "login_to_buy": "ખરીદવા માટે લોગિન કરો"
+  },
+
+  "cart": {
+    "title": "શોપિંગ કાર્ટ",
+    "empty": "તમારી કાર્ટ ખાલી છે",
+    "product": "ઉત્પાદન",
+    "price": "કિંમત",
+    "quantity": "જથ્થો",
+    "total": "કુલ",
+    "remove": "દૂર કરો",
+    "subtotal": "સબટોટલ",
+    "checkout": "ચેકઆઉટ પર આગળ વધો"
+  },
+
+  "wishlist": {
+    "title": "મારી વિશલિસ્ટ",
+    "empty": "તમારી વિશલિસ્ટ ખાલી છે",
+    "browse_products": "ઉત્પાદનો બ્રાઉઝ કરો",
+    "view_product": "ઉત્પાદન જુઓ",
+    "remove": "દૂર કરો"
+  },
+
+  "orders": {
+    "title": "મારા ઓર્ડર",
+    "order_id": "ઓર્ડર ID",
+    "date": "તારીખ",
+    "total": "કુલ",
+    "status": "સ્થિતિ",
+    "view": "જુઓ",
+    "no_orders": "હજુ સુધી કોઈ ઓર્ડર નથી"
+  },
+
+  "admin": {
+    "dashboard": "એડમિન ડેશબોર્ડ",
+    "users": "યુઝર મેનેજમેન્ટ",
+    "moderation": "કન્ટેન્ટ મોડરેશન",
+    "total_users": "કુલ યુઝર્સ",
+    "total_orders": "કુલ ઓર્ડર",
+    "total_revenue": "કુલ આવક",
+    "total_products": "કુલ ઉત્પાદનો",
+    "name": "નામ",
+    "email": "ઇમેઇલ",
+    "role": "ભૂમિકા",
+    "status": "સ્થિતિ",
+    "actions": "ક્રિયાઓ",
+    "activate": "સક્રિય કરો",
+    "deactivate": "નિષ્ક્રિય કરો",
+    "delete": "ડિલીટ કરો",
+    "active": "સક્રિય",
+    "inactive": "નિષ્ક્રિય"
+  },
+
+  "common": {
+    "save": "સેવ કરો",
+    "cancel": "રદ કરો",
+    "delete": "ડિલીટ કરો",
+    "edit": "એડિટ કરો",
+    "submit": "સબમિટ કરો",
+    "loading": "લોડ થઈ રહ્યું છે...",
+    "error": "ભૂલ",
+    "success": "સફળતા"
+  }
+}

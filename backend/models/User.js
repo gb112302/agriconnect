@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
+const crypto = require('crypto');
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -23,8 +24,18 @@ const userSchema = new mongoose.Schema({
     },
     role: {
         type: String,
-        enum: ['farmer', 'buyer'],
-        required: [true, 'Role is required']
+        enum: ['farmer', 'buyer', 'admin'],
+        default: 'buyer' // Default role, but can be changed post-login
+    },
+    currentRole: {
+        type: String,
+        enum: ['farmer', 'buyer', 'admin'],
+        default: null // Active role for current session
+    },
+    availableRoles: {
+        type: [String],
+        enum: ['farmer', 'buyer', 'admin'],
+        default: ['buyer', 'farmer'] // Users can switch between buyer and farmer
     },
     phone: {
         type: String,
@@ -35,6 +46,22 @@ const userSchema = new mongoose.Schema({
         district: String,
         pincode: String
     },
+    emailVerified: {
+        type: Boolean,
+        default: false
+    },
+    emailVerificationToken: String,
+    emailVerificationExpire: Date,
+    resetPasswordToken: String,
+    resetPasswordExpire: Date,
+    isActive: {
+        type: Boolean,
+        default: true
+    },
+    wishlist: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Product'
+    }],
     createdAt: {
         type: Date,
         default: Date.now
@@ -53,6 +80,34 @@ userSchema.pre('save', async function (next) {
 // Method to compare passwords
 userSchema.methods.comparePassword = async function (candidatePassword) {
     return await bcrypt.compare(candidatePassword, this.password);
+};
+
+// Generate email verification token
+userSchema.methods.generateEmailVerificationToken = function () {
+    const verificationToken = crypto.randomBytes(32).toString('hex');
+
+    this.emailVerificationToken = crypto
+        .createHash('sha256')
+        .update(verificationToken)
+        .digest('hex');
+
+    this.emailVerificationExpire = Date.now() + 24 * 60 * 60 * 1000; // 24 hours
+
+    return verificationToken;
+};
+
+// Generate password reset token
+userSchema.methods.generateResetPasswordToken = function () {
+    const resetToken = crypto.randomBytes(32).toString('hex');
+
+    this.resetPasswordToken = crypto
+        .createHash('sha256')
+        .update(resetToken)
+        .digest('hex');
+
+    this.resetPasswordExpire = Date.now() + 60 * 60 * 1000; // 1 hour
+
+    return resetToken;
 };
 
 module.exports = mongoose.model('User', userSchema);

@@ -3,6 +3,7 @@ const router = express.Router();
 const Order = require('../models/Order');
 const Product = require('../models/Product');
 const { protect, authorize } = require('../middleware/auth');
+const emailService = require('../services/emailService');
 
 // @route   POST /api/orders
 // @desc    Create new order
@@ -44,6 +45,22 @@ router.post('/', protect, authorize('buyer'), async (req, res) => {
             await Product.findByIdAndUpdate(item.productId, {
                 $inc: { stockQuantity: -item.quantity }
             });
+        }
+
+        // Send confirmation email
+        try {
+            await emailService.sendOrderConfirmationEmail(
+                req.user.email,
+                req.user.name,
+                {
+                    orderId: order._id,
+                    totalAmount: order.totalAmount,
+                    status: order.status
+                }
+            );
+        } catch (emailError) {
+            console.error('Failed to send order confirmation email:', emailError);
+            // Continue without failing the request
         }
 
         res.status(201).json({

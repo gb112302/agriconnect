@@ -1,27 +1,13 @@
 import React from 'react';
 import { useCart } from '../context/CartContext';
-import { ordersAPI } from '../services/api';
 import { useNavigate } from 'react-router-dom';
 
 function Cart() {
     const { cart, removeFromCart, updateQuantity, getCartTotal, clearCart } = useCart();
     const navigate = useNavigate();
 
-    const handleCheckout = async () => {
-        try {
-            const orderItems = cart.map(item => ({
-                product: item._id,
-                quantity: item.quantity,
-                price: item.price
-            }));
-
-            await ordersAPI.create({ items: orderItems });
-            clearCart();
-            alert('Order placed successfully!');
-            navigate('/dashboard');
-        } catch (error) {
-            alert('Failed to place order: ' + (error.response?.data?.message || error.message));
-        }
+    const handleCheckout = () => {
+        navigate('/checkout');
     };
 
     if (cart.length === 0) {

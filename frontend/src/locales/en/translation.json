@@ -1,0 +1,135 @@
+{
+  "app_name": "AgriConnect",
+  "tagline": "Farm to Table, Direct and Fresh",
+
+  "nav": {
+    "home": "Home",
+    "products": "Products",
+    "dashboard": "Dashboard",
+    "cart": "Cart",
+    "login": "Login",
+    "register": "Register",
+    "logout": "Logout"
+  },
+
+  "auth": {
+    "welcome_back": "Welcome Back",
+    "login_subtitle": "Login to AgriConnect",
+    "email": "Email Address",
+    "password": "Password",
+    "remember_me": "Remember me",
+    "forgot_password": "Forgot Password?",
+    "login_button": "Login",
+    "no_account": "Don't have an account?",
+    "register_here": "Register here",
+    "logging_in": "Logging in..."
+  },
+
+  "dashboard": {
+    "welcome": "Welcome",
+    "farmer_welcome": "Manage your products and orders",
+    "buyer_welcome": "Browse fresh farm products",
+    "admin_welcome": "Platform Administration",
+    "my_products": "My Products",
+    "add_product": "Add Product",
+    "manage_orders": "Manage Orders",
+    "analytics": "Analytics",
+    "browse_products": "Browse Products",
+    "my_wishlist": "My Wishlist",
+    "messages": "Messages",
+    "my_orders": "My Orders"
+  },
+
+  "products": {
+    "marketplace": "Marketplace",
+    "search": "Search products...",
+    "all_categories": "All Categories",
+    "min_price": "Min Price",
+    "max_price": "Max Price",
+    "sort_by": "Sort By",
+    "newest": "Newest First",
+    "price_low": "Price: Low to High",
+    "price_high": "Price: High to Low",
+    "top_rated": "Top Rated",
+    "no_products": "No products found matching your criteria.",
+    "loading": "Loading products...",
+    "per": "per",
+    "in_stock": "In Stock",
+    "out_of_stock": "Out of Stock",
+    "view_details": "View Details",
+    "add_to_cart": "Add to Cart"
+  },
+
+  "product_details": {
+    "back": "Back to Products",
+    "category": "Category",
+    "description": "Description",
+    "variants": "Variants",
+    "farmer_details": "Farmer Details",
+    "available_quantity": "Available Quantity",
+    "add_to_cart": "Add to Cart",
+    "unavailable": "Currently Unavailable",
+    "login_to_buy": "Login to Buy"
+  },
+
+  "cart": {
+    "title": "Shopping Cart",
+    "empty": "Your cart is empty",
+    "product": "Product",
+    "price": "Price",
+    "quantity": "Quantity",
+    "total": "Total",
+    "remove": "Remove",
+    "subtotal": "Subtotal",
+    "checkout": "Proceed to Checkout"
+  },
+
+  "wishlist": {
+    "title": "My Wishlist",
+    "empty": "Your wishlist is empty",
+    "browse_products": "Browse Products",
+    "view_product": "View Product",
+    "remove": "Remove"
+  },
+
+  "orders": {
+    "title": "My Orders",
+    "order_id": "Order ID",
+    "date": "Date",
+    "total": "Total",
+    "status": "Status",
+    "view": "View",
+    "no_orders": "No orders yet"
+  },
+
+  "admin": {
+    "dashboard": "Admin Dashboard",
+    "users": "User Management",
+    "moderation": "Content Moderation",
+    "total_users": "Total Users",
+    "total_orders": "Total Orders",
+    "total_revenue": "Total Revenue",
+    "total_products": "Total Products",
+    "name": "Name",
+    "email": "Email",
+    "role": "Role",
+    "status": "Status",
+    "actions": "Actions",
+    "activate": "Activate",
+    "deactivate": "Deactivate",
+    "delete": "Delete",
+    "active": "Active",
+    "inactive": "Inactive"
+  },
+
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "submit": "Submit",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success"
+  }
+}

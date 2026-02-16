@@ -23,6 +23,15 @@ function Dashboard() {
                         <button className="btn btn-primary" onClick={() => window.location.href = '/products'}>
                             Manage Products
                         </button>
+                        <button className="btn btn-secondary ml-2" onClick={() => window.location.href = '/chat'}>
+                            Messages
+                        </button>
+                        <button className="btn btn-secondary ml-2" onClick={() => window.location.href = '/orders'}>
+                            Manage Orders
+                        </button>
+                        <button className="btn btn-secondary ml-2" onClick={() => window.location.href = '/analytics'}>
+                            Analytics
+                        </button>
                     </div>
                 ) : (
                     <div className="card">
@@ -30,6 +39,15 @@ function Dashboard() {
                         <p>Browse products, manage your cart, and place orders.</p>
                         <button className="btn btn-primary" onClick={() => window.location.href = '/products'}>
                             Browse Products
+                        </button>
+                        <button className="btn btn-secondary ml-2" onClick={() => window.location.href = '/wishlist'}>
+                            My Wishlist
+                        </button>
+                        <button className="btn btn-secondary ml-2" onClick={() => window.location.href = '/chat'}>
+                            Messages
+                        </button>
+                        <button className="btn btn-secondary ml-2" onClick={() => window.location.href = '/orders'}>
+                            My Orders
                         </button>
                     </div>
                 )}

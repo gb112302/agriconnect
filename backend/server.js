@@ -2,12 +2,32 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
+const http = require('http');
+const socketIo = require('socket.io');
 const { MongoMemoryServer } = require('mongodb-memory-server');
+const socketHandler = require('./socket/socketHandler');
 
 // Load environment variables
 dotenv.config();
 
 const app = express();
+const server = http.createServer(app);
+
+// Socket.io setup
+const io = socketIo(server, {
+  cors: {
+    origin: process.env.NODE_ENV === 'production'
+      ? [process.env.FRONTEND_URL, 'https://agriconnectgb.netlify.app']
+      : ['http://localhost:3000', 'http://localhost:3001'],
+    credentials: true
+  }
+});
+
+// Initialize socket handler
+socketHandler(io);
+
+// Make io accessible to routes
+app.set('io', io);
 
 // Middleware
 const corsOptions = {
@@ -25,8 +45,6 @@ async function connectDB() {
   try {
     // Try to connect to MongoDB Atlas or local MongoDB
     await mongoose.connect(process.env.MONGODB_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
       serverSelectionTimeoutMS: 5000
     });
     console.log('✅ MongoDB connected successfully');
@@ -35,10 +53,7 @@ async function connectDB() {
     // Use in-memory database as fallback
     const mongod = await MongoMemoryServer.create();
     const uri = mongod.getUri();
-    await mongoose.connect(uri, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    await mongoose.connect(uri);
     console.log('✅ In-memory MongoDB connected successfully');
   }
 }
@@ -50,6 +65,11 @@ app.use('/api/auth', require('./routes/auth'));
 app.use('/api/products', require('./routes/products'));
 app.use('/api/orders', require('./routes/orders'));
 app.use('/api/bulk-requests', require('./routes/bulkRequests'));
+app.use('/api/reviews', require('./routes/reviews'));
+app.use('/api/payments', require('./routes/payments'));
+app.use('/api/chat', require('./routes/chat'));
+app.use('/api/analytics', require('./routes/analytics'));
+app.use('/api/admin', require('./routes/admin'));
 
 // Health check route
 app.get('/api/health', (req, res) => {
@@ -67,6 +87,7 @@ app.use((err, req, res, next) => {
 });
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
+  console.log(`📡 Socket.io server ready`);
 });

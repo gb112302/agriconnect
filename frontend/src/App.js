@@ -20,6 +20,7 @@ import OrderDetails from './pages/OrderDetails';
 import Analytics from './pages/Analytics';
 import AdminDashboard from './pages/AdminDashboard';
 import Wishlist from './pages/Wishlist';
+import Footer from './components/Footer';
 import './App.css';
 
 // Protected Route Component
@@ -137,6 +138,7 @@ function AppContent() {
                     }
                 />
             </Routes>
+            <Footer />
         </div>
     );
 }

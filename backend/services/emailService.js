@@ -2,9 +2,12 @@ const nodemailer = require('nodemailer');
 
 // Create transporter
 const createTransporter = () => {
-    // For development, use Gmail or any SMTP service
-    // For production, use SendGrid, AWS SES, or similar
-    return nodemailer.createTransporter({
+    // If email credentials are not configured, return null
+    if (!process.env.EMAIL_USER || !process.env.EMAIL_PASSWORD) {
+        console.log('⚠️  Email not configured - skipping email sending');
+        return null;
+    }
+    return nodemailer.createTransport({
         host: process.env.EMAIL_HOST || 'smtp.gmail.com',
         port: process.env.EMAIL_PORT || 587,
         secure: false, // true for 465, false for other ports
@@ -18,6 +21,7 @@ const createTransporter = () => {
 // Send email verification
 const sendVerificationEmail = async (email, name, verificationToken) => {
     const transporter = createTransporter();
+    if (!transporter) return { success: true, skipped: true };
 
     const verificationUrl = `${process.env.FRONTEND_URL}/verify-email/${verificationToken}`;
 
@@ -77,6 +81,7 @@ const sendVerificationEmail = async (email, name, verificationToken) => {
 // Send password reset email
 const sendPasswordResetEmail = async (email, name, resetToken) => {
     const transporter = createTransporter();
+    if (!transporter) return { success: true, skipped: true };
 
     const resetUrl = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`;
 
@@ -143,6 +148,7 @@ const sendPasswordResetEmail = async (email, name, resetToken) => {
 // Send order confirmation email
 const sendOrderConfirmationEmail = async (email, name, orderDetails) => {
     const transporter = createTransporter();
+    if (!transporter) return { success: true, skipped: true };
 
     const mailOptions = {
         from: `"AgriConnect" <${process.env.EMAIL_USER}>`,

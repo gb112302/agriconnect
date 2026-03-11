@@ -1,0 +1,94 @@
+/* ───── Farming Tips Page ───── */
+.tips-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 18px;
+    margin-bottom: 32px;
+}
+
+@media (max-width: 600px) {
+    .tips-grid { grid-template-columns: 1fr; }
+}
+
+/* ── Tip Card ── */
+.tip-card {
+    background: rgba(255,255,255,0.90);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.70);
+    border-radius: 14px;
+    padding: 20px 18px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    transition: all 0.22s;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.tip-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 14px;
+    border: 2px solid transparent;
+    transition: border-color 0.22s;
+}
+
+.tip-card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.13); }
+.tip-card:hover::before { border-color: #4caf50; }
+
+.dark .tip-card { background: rgba(20,35,20,0.90); border-color: rgba(255,255,255,0.10); }
+
+.tip-card-header {
+    display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;
+}
+
+.tip-emoji { font-size: 34px; line-height: 1; }
+
+.tip-season-badge {
+    font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px;
+    background: linear-gradient(135deg, #1b5e20, #4caf50);
+    color: #fff; padding: 4px 10px; border-radius: 12px;
+}
+
+.tip-crop  { font-size: 11px; font-weight: 700; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+.tip-title { font-size: 15px; font-weight: 800; color: #111827; margin-bottom: 8px; line-height: 1.35; }
+.tip-summary { font-size: 13px; color: #6b7280; line-height: 1.6; margin-bottom: 14px; }
+.dark .tip-title { color: #f3f4f6; }
+
+.tip-footer { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.tip-diff   { font-size: 12px; font-weight: 700; }
+.tip-yield  { font-size: 12px; font-weight: 600; color: #2e7d32; background: #f0fdf4; padding: 3px 10px; border-radius: 10px; }
+.dark .tip-yield { background: rgba(76,175,80,0.15); color: #86efac; }
+
+.tip-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+.tip-tag {
+    font-size: 11px; padding: 3px 9px; border-radius: 8px;
+    background: #f3f4f6; color: #6b7280; font-weight: 600;
+}
+.dark .tip-tag { background: rgba(255,255,255,0.10); color: #9ca3af; }
+
+/* ── Tip Modal ── */
+.tip-modal-box { max-width: 620px; }
+.tip-modal-body { padding: 20px 24px 28px; }
+.tip-modal-meta { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 14px; }
+.tip-modal-summary { font-size: 14px; color: #374151; line-height: 1.65; margin-bottom: 20px; padding: 14px 16px; background: #f9fafb; border-radius: 10px; border-left: 4px solid #4caf50; }
+.dark .tip-modal-summary { background: rgba(255,255,255,0.06); color: #d1d5db; }
+.tip-steps-title { font-size: 14px; font-weight: 800; color: #1b5e20; margin-bottom: 12px; }
+.dark .tip-steps-title { color: #86efac; }
+.tip-steps { padding-left: 20px; display: flex; flex-direction: column; gap: 10px; }
+.tip-step-item { font-size: 13px; color: #374151; line-height: 1.65; }
+.dark .tip-step-item { color: #d1d5db; }
+
+/* ── Info Banner ── */
+.tips-info-banner {
+    display: flex; gap: 16px; align-items: flex-start;
+    background: linear-gradient(135deg, rgba(46,125,50,0.08), rgba(76,175,80,0.06));
+    border: 1px solid rgba(76,175,80,0.25);
+    border-radius: 14px; padding: 20px 24px; margin-top: 32px;
+}
+.tips-info-banner strong { display: block; font-size: 15px; color: #1b5e20; margin-bottom: 4px; }
+.tips-info-banner p { font-size: 13px; color: #374151; margin: 0; line-height: 1.6; }
+.tips-info-banner a { color: #2e7d32; font-weight: 600; }
+.dark .tips-info-banner { background: rgba(76,175,80,0.08); border-color: rgba(76,175,80,0.20); }
+.dark .tips-info-banner strong { color: #86efac; }
+.dark .tips-info-banner p { color: #d1d5db; }

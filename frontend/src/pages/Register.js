@@ -3,287 +3,197 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import RoleSelector from '../components/RoleSelector';
 import { useTranslation } from 'react-i18next';
+import './Login.css';
+import './Register.css';
+
+function getStrength(pw) {
+    let score = 0;
+    if (pw.length >= 6) score++;
+    if (pw.length >= 10) score++;
+    if (/[A-Z]/.test(pw)) score++;
+    if (/[0-9]/.test(pw)) score++;
+    if (/[^A-Za-z0-9]/.test(pw)) score++;
+    return score;
+}
+
+const STRENGTH_COLORS = ['', '#ef4444', '#f59e0b', '#84cc16', '#22c55e', '#16a34a'];
 
 function Register() {
     const { t } = useTranslation();
     const [formData, setFormData] = useState({
-        name: '',
-        email: '',
-        password: '',
-        phone: '',
-        location: {
-            state: '',
-            district: '',
-        },
+        name: '', email: '', password: '', phone: '',
+        location: { state: '', district: '' },
     });
     const [error, setError] = useState('');
     const [fieldErrors, setFieldErrors] = useState({});
     const [loading, setLoading] = useState(false);
     const [showRoleSelector, setShowRoleSelector] = useState(false);
     const [registeredUser, setRegisteredUser] = useState(null);
+    const [showPassword, setShowPassword] = useState(false);
 
     const { register, selectRole } = useAuth();
     const navigate = useNavigate();
 
-    const validateEmail = (email) => {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(email);
-    };
-
-    const validatePassword = (password) => {
-        if (password.length < 6) {
-            return 'Password must be at least 6 characters';
-        }
-        if (!/[A-Z]/.test(password)) {
-            return 'Password must contain at least one uppercase letter';
-        }
-        if (!/[a-z]/.test(password)) {
-            return 'Password must contain at least one lowercase letter';
-        }
-        if (!/[0-9]/.test(password)) {
-            return 'Password must contain at least one number';
-        }
-        return null;
-    };
-
-    const validatePhone = (phone) => {
-        const phoneRegex = /^[6-9]\d{9}$/; // Indian phone number format
-        return phoneRegex.test(phone);
-    };
+    const STRENGTH_LABELS = [
+        '',
+        t('auth.pw_strength.very_weak'),
+        t('auth.pw_strength.weak'),
+        t('auth.pw_strength.fair'),
+        t('auth.pw_strength.good'),
+        t('auth.pw_strength.strong'),
+        t('auth.pw_strength.very_strong')
+    ];
 
     const validateField = (name, value) => {
-        let error = '';
-
         switch (name) {
-            case 'name':
-                if (value.trim().length < 2) {
-                    error = 'Name must be at least 2 characters';
-                }
-                break;
-            case 'email':
-                if (!validateEmail(value)) {
-                    error = 'Please enter a valid email address';
-                }
-                break;
-            case 'password':
-                error = validatePassword(value) || '';
-                break;
-            case 'phone':
-                if (!validatePhone(value)) {
-                    error = 'Please enter a valid 10-digit phone number';
-                }
-                break;
+            case 'name':     return value.trim().length < 2 ? t('auth.validation.name_short') : '';
+            case 'email':    return !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) ? t('auth.validation.email_invalid') : '';
+            case 'password': {
+                if (value.length < 6) return t('auth.validation.pw_short');
+                if (!/[A-Z]/.test(value)) return t('auth.validation.pw_upper');
+                if (!/[0-9]/.test(value)) return t('auth.validation.pw_number');
+                return '';
+            }
+            case 'phone':    return !/^[6-9]\d{9}$/.test(value) ? t('auth.validation.phone_invalid') : '';
             case 'state':
-            case 'district':
-                if (value.trim().length < 2) {
-                    error = `${name.charAt(0).toUpperCase() + name.slice(1)} is required`;
-                }
-                break;
-            default:
-                break;
+            case 'district': return value.trim().length < 2 ? t(`auth.validation.${name}_req`) : '';
+            default:         return '';
         }
-
-        return error;
     };
-
-
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-
         if (name === 'state' || name === 'district') {
-            setFormData({
-                ...formData,
-                location: {
-                    ...formData.location,
-                    [name]: value,
-                },
-            });
+            setFormData(f => ({ ...f, location: { ...f.location, [name]: value } }));
         } else {
-            setFormData({
-                ...formData,
-                [name]: value,
-            });
+            setFormData(f => ({ ...f, [name]: value }));
         }
-
-        // Clear field error when user starts typing
-        if (fieldErrors[name]) {
-            setFieldErrors({
-                ...fieldErrors,
-                [name]: '',
-            });
-        }
+        if (fieldErrors[name]) setFieldErrors(f => ({ ...f, [name]: '' }));
     };
 
     const handleBlur = (e) => {
         const { name, value } = e.target;
-        const error = validateField(name, value);
-
-        if (error) {
-            setFieldErrors({
-                ...fieldErrors,
-                [name]: error,
-            });
-        }
+        const err = validateField(name, value);
+        if (err) setFieldErrors(f => ({ ...f, [name]: err }));
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
-
-        // Validate all fields
-        const errors = {};
-        errors.name = validateField('name', formData.name);
-        errors.email = validateField('email', formData.email);
-        errors.password = validateField('password', formData.password);
-        errors.phone = validateField('phone', formData.phone);
-        errors.state = validateField('state', formData.location.state);
-        errors.district = validateField('district', formData.location.district);
-
-        // Filter out empty errors
-        const validErrors = Object.keys(errors).reduce((acc, key) => {
-            if (errors[key]) acc[key] = errors[key];
-            return acc;
-        }, {});
-
-        if (Object.keys(validErrors).length > 0) {
-            setFieldErrors(validErrors);
-            setError('Please fix the errors in the form');
-            return;
-        }
-
+        const errors = {
+            name:     validateField('name', formData.name),
+            email:    validateField('email', formData.email),
+            password: validateField('password', formData.password),
+            phone:    validateField('phone', formData.phone),
+            state:    validateField('state', formData.location.state),
+            district: validateField('district', formData.location.district),
+        };
+        if (Object.values(errors).some(Boolean)) { setFieldErrors(errors); setError(t('auth.validation.fix_errors')); return; }
         setLoading(true);
-
         const result = await register(formData);
-
-        if (result.success) {
-            // Show role selector instead of navigating directly
-            setRegisteredUser(result.user);
-            setShowRoleSelector(true);
-        } else {
-            setError(result.error);
-        }
-
+        if (result.success) { setRegisteredUser(result.user); setShowRoleSelector(true); }
+        else setError(result.error);
         setLoading(false);
     };
 
     const handleRoleSelect = async (role) => {
         setLoading(true);
         const result = await selectRole(role);
-
-        if (result.success) {
-            navigate('/dashboard');
-        } else {
-            setError(result.error || 'Failed to select role');
-            setShowRoleSelector(false);
-        }
-
+        if (result.success) navigate('/dashboard');
+        else { setError(result.error || 'Failed to select role'); setShowRoleSelector(false); }
         setLoading(false);
     };
 
     if (showRoleSelector && registeredUser) {
-        return (
-            <RoleSelector
-                onRoleSelect={handleRoleSelect}
-                availableRoles={registeredUser.availableRoles || ['buyer', 'farmer']}
-            />
-        );
+        return <RoleSelector onRoleSelect={handleRoleSelect} availableRoles={registeredUser.availableRoles || ['buyer', 'farmer']} />;
     }
 
+    const strength = getStrength(formData.password);
+
     return (
-        <div className="auth-container">
-            <h2>{t('app_name')} - {t('nav.register')}</h2>
-            {error && <div className="error">{error}</div>}
+        <div className="login-wrapper" style={{ alignItems: 'flex-start', paddingTop: '32px' }}>
+            <div className="login-container" style={{ maxWidth: '520px' }}>
+                <div className="login-card">
+                    <div className="login-logo">🌱</div>
+                    <div className="login-header">
+                        <h2>{t('auth.register_title')}</h2>
+                        <p>{t('auth.register_subtitle')}</p>
+                    </div>
 
-            <form onSubmit={handleSubmit}>
-                <div className="form-group">
-                    <label>{t('admin.name')}</label>
-                    <input
-                        type="text"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        required
-                    />
-                    {fieldErrors.name && <div className="error">{fieldErrors.name}</div>}
+                    {error && <div className="error-message">{error}</div>}
+
+                    <form onSubmit={handleSubmit} className="login-form">
+                        <div className="reg-grid">
+                            <div className="form-group">
+                                <label>{t('auth.full_name')}</label>
+                                <input type="text" name="name" value={formData.name} onChange={handleChange} onBlur={handleBlur} placeholder={t('auth.name_placeholder')} required />
+                                {fieldErrors.name && <span className="field-error">{fieldErrors.name}</span>}
+                            </div>
+                            <div className="form-group">
+                                <label>{t('auth.phone')}</label>
+                                <input type="tel" name="phone" value={formData.phone} onChange={handleChange} onBlur={handleBlur} placeholder={t('auth.phone_placeholder')} required />
+                                {fieldErrors.phone && <span className="field-error">{fieldErrors.phone}</span>}
+                            </div>
+                        </div>
+
+                        <div className="form-group">
+                            <label>{t('auth.email')}</label>
+                            <input type="email" name="email" value={formData.email} onChange={handleChange} onBlur={handleBlur} placeholder={t('auth.email_placeholder')} required />
+                            {fieldErrors.email && <span className="field-error">{fieldErrors.email}</span>}
+                        </div>
+
+                        <div className="form-group">
+                            <label>{t('auth.password')}</label>
+                            <div className="password-wrapper">
+                                <input type={showPassword ? 'text' : 'password'} name="password" value={formData.password}
+                                    onChange={handleChange} onBlur={handleBlur}
+                                    placeholder={t('auth.password_placeholder')} required minLength={6} />
+                                <button type="button" className="password-toggle"
+                                    onClick={() => setShowPassword(p => !p)}>
+                                    {showPassword ? '🙈' : '👁️'}
+                                </button>
+                            </div>
+                            {formData.password && (
+                                <div className="pw-strength">
+                                    <div className="pw-bar">
+                                        {[1,2,3,4,5].map(i => (
+                                            <div key={i} className="pw-segment"
+                                                style={{ background: i <= strength ? STRENGTH_COLORS[strength] : '#e5e7eb' }} />
+                                        ))}
+                                    </div>
+                                    <span style={{ color: STRENGTH_COLORS[strength], fontSize: '12px', fontWeight: 600 }}>
+                                        {STRENGTH_LABELS[strength]}
+                                    </span>
+                                </div>
+                            )}
+                            {fieldErrors.password && <span className="field-error">{fieldErrors.password}</span>}
+                        </div>
+
+                        <div className="reg-grid">
+                            <div className="form-group">
+                                <label>{t('auth.state')}</label>
+                                <input type="text" name="state" value={formData.location.state}
+                                    onChange={handleChange} onBlur={handleBlur} placeholder={t('auth.state_placeholder')} required />
+                                {fieldErrors.state && <span className="field-error">{fieldErrors.state}</span>}
+                            </div>
+                            <div className="form-group">
+                                <label>{t('auth.district')}</label>
+                                <input type="text" name="district" value={formData.location.district}
+                                    onChange={handleChange} onBlur={handleBlur} placeholder={t('auth.district_placeholder')} required />
+                                {fieldErrors.district && <span className="field-error">{fieldErrors.district}</span>}
+                            </div>
+                        </div>
+
+                        <button type="submit" className="btn-login" style={{ marginTop: '8px' }} disabled={loading}>
+                            {loading ? t('auth.creating_account') : t('auth.register_button')}
+                        </button>
+                    </form>
+
+                    <div className="login-footer">
+                        <p>{t('auth.already_have_account')} <Link to="/login" className="register-link">{t('auth.login_here')}</Link></p>
+                    </div>
                 </div>
-
-                <div className="form-group">
-                    <label>{t('auth.email')}</label>
-                    <input
-                        type="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        required
-                    />
-                    {fieldErrors.email && <div className="error">{fieldErrors.email}</div>}
-                </div>
-
-                <div className="form-group">
-                    <label>{t('auth.password')}</label>
-                    <input
-                        type="password"
-                        name="password"
-                        value={formData.password}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        required
-                        minLength="6"
-                    />
-                    {fieldErrors.password && <div className="error">{fieldErrors.password}</div>}
-                </div>
-
-                <div className="form-group">
-                    <label>Phone</label>
-                    <input
-                        type="tel"
-                        name="phone"
-                        value={formData.phone}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        required
-                        placeholder="10-digit mobile number"
-                    />
-                    {fieldErrors.phone && <div className="error">{fieldErrors.phone}</div>}
-                </div>
-
-                <div className="form-group">
-                    <label>State</label>
-                    <input
-                        type="text"
-                        name="state"
-                        value={formData.location.state}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        required
-                    />
-                    {fieldErrors.state && <div className="error">{fieldErrors.state}</div>}
-                </div>
-
-                <div className="form-group">
-                    <label>District</label>
-                    <input
-                        type="text"
-                        name="district"
-                        value={formData.location.district}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        required
-                    />
-                    {fieldErrors.district && <div className="error">{fieldErrors.district}</div>}
-                </div>
-
-                <button type="submit" className="btn btn-primary" style={{ width: '100%' }} disabled={loading}>
-                    {loading ? 'Registering...' : 'Register'}
-                </button>
-            </form>
-
-            <p style={{ textAlign: 'center', marginTop: '20px' }}>
-                Already have an account? <Link to="/login">Login here</Link>
-            </p>
+            </div>
         </div>
     );
 }

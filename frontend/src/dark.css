@@ -1,0 +1,74 @@
+/* ── Dark Mode: dark class on <html> ── */
+.dark body {
+  background: url('./assets/bg-agriculture.jpg') center/cover no-repeat fixed;
+  color: #e5e7eb;
+}
+
+.dark body::before {
+  background: rgba(0,0,0,0.60);
+}
+
+/* Nav */
+.dark nav {
+  background: linear-gradient(135deg, #0d2e10 0%, #1a4a1e 60%, #1f5a24 100%);
+}
+
+/* Cards */
+.dark .card,
+.dark .hiw-card,
+.dark .stat-item,
+.dark .product-card,
+.dark .cart-item,
+.dark .cart-total,
+.dark .auth-container {
+  background: rgba(30,40,30,0.92);
+  border-color: rgba(255,255,255,0.10);
+  color: #e5e7eb;
+}
+
+.dark .hiw-card h3 { color: #86efac; }
+.dark .hiw-card p  { color: #9ca3af; }
+
+/* Stat strip */
+.dark .stat-item .stat-number { color: #86efac; }
+.dark .stat-item .stat-label  { color: #9ca3af; }
+
+/* Hero */
+.dark .hero h1 {
+  background: linear-gradient(135deg, #86efac, #4ade80, #22c55e);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.dark .hero p { color: #a7f3d0; }
+
+/* Forms */
+.dark .form-group input,
+.dark .form-group select,
+.dark .form-group textarea {
+  background: rgba(40,60,40,0.80);
+  border-color: #4a7c59;
+  color: #e5e7eb;
+}
+
+.dark .form-group label { color: #d1fae5; }
+
+/* Footer */
+.dark footer {
+  background: linear-gradient(180deg, #0a2010 0%, #040f07 100%);
+}
+
+/* General text */
+.dark h1, .dark h2, .dark h3 { color: #e5e7eb; }
+.dark p { color: #9ca3af; }
+
+/* Tables (Orders, Admin) */
+.dark table { color: #e5e7eb; }
+.dark thead { background: rgba(30,50,30,0.9) !important; }
+.dark tbody tr { border-bottom-color: #2a3a2a; }
+.dark tbody tr:hover { background: rgba(40,60,40,0.6); }
+
+/* Scrollbar */
+.dark ::-webkit-scrollbar { width: 8px; }
+.dark ::-webkit-scrollbar-track { background: #1a1a1a; }
+.dark ::-webkit-scrollbar-thumb { background: #2e7d32; border-radius: 4px; }

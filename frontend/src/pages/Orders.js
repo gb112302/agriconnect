@@ -1,105 +1,142 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { ordersAPI } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 
+function OrderTimeline({ status }) {
+    const { t } = useTranslation();
+    const TIMELINE_STEPS = [
+        { key: 'pending',    icon: '📋', label: t('orders.timeline.pending') },
+        { key: 'processing', icon: '⚙️', label: t('orders.timeline.processing') },
+        { key: 'shipped',    icon: '🚚', label: t('orders.timeline.shipped') },
+        { key: 'delivered',  icon: '✅', label: t('orders.timeline.delivered') },
+    ];
+    const current = TIMELINE_STEPS.findIndex(s => s.key === status);
+
+    return (
+        <div className="order-timeline">
+            {TIMELINE_STEPS.map((step, i) => {
+                const isDone   = i < current;
+                const isActive = i === current;
+                return (
+                    <div key={step.key} className={`timeline-step${isDone ? ' done' : ''}${isActive ? ' active' : ''}`}>
+                        <div className="timeline-dot">{isDone ? '✓' : step.icon}</div>
+                        <div className="timeline-label">{step.label}</div>
+                    </div>
+                );
+            })}
+        </div>
+    );
+}
+
+const STATUS_COLORS = {
+    pending:    { bg: '#fef9c3', color: '#78350f' },
+    processing: { bg: '#dbeafe', color: '#1e40af' },
+    shipped:    { bg: '#ede9fe', color: '#5b21b6' },
+    delivered:  { bg: '#dcfce7', color: '#14532d' },
+    cancelled:  { bg: '#fee2e2', color: '#7f1d1d' },
+};
+
 function Orders() {
+    const { t, i18n } = useTranslation();
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
+    const [expandedOrder, setExpandedOrder] = useState(null);
     const { user } = useAuth();
 
-    useEffect(() => {
-        fetchOrders();
-    }, []);
+    useEffect(() => { fetchOrders(); }, []);
 
     const fetchOrders = async () => {
         setLoading(true);
         try {
             let response;
-            if (user.role === 'buyer') {
-                response = await ordersAPI.getBuyerOrders();
-            } else if (user.role === 'farmer') {
-                response = await ordersAPI.getFarmerOrders();
-            }
+            if (user.role === 'buyer') response = await ordersAPI.getBuyerOrders();
+            else if (user.role === 'farmer') response = await ordersAPI.getFarmerOrders();
             setOrders(response.data.orders);
         } catch (err) {
-            setError('Failed to load orders');
-            console.error(err);
+            setError(t('orders.error'));
         } finally {
             setLoading(false);
         }
     };
 
-    const getStatusColor = (status) => {
-        switch (status) {
-            case 'pending': return 'bg-yellow-100 text-yellow-800';
-            case 'processing': return 'bg-blue-100 text-blue-800';
-            case 'shipped': return 'bg-indigo-100 text-indigo-800';
-            case 'delivered': return 'bg-green-100 text-green-800';
-            case 'cancelled': return 'bg-red-100 text-red-800';
-            default: return 'bg-gray-100 text-gray-800';
-        }
-    };
+    if (loading) return <div className="loading">{t('orders.loading')}</div>;
+    if (error) return <div className="error" style={{ padding: '40px', textAlign: 'center' }}>{error}</div>;
 
-    if (loading) return <div className="text-center py-10">Loading orders...</div>;
-    if (error) return <div className="text-center py-10 text-red-500">{error}</div>;
+    const currentLang = i18n.language === 'hi' ? 'hi-IN' : i18n.language === 'gu' ? 'gu-IN' : 'en-IN';
 
     return (
-        <div className="container mx-auto px-4 py-8">
-            <h1 className="text-2xl font-bold mb-6">
-                {user.role === 'farmer' ? 'Orders Received' : 'My Orders'}
+        <div className="container" style={{ paddingTop: '24px', paddingBottom: '48px' }}>
+            <h1 style={{ fontSize: 'clamp(20px,4vw,28px)', fontWeight: 800, color: '#1b5e20', marginBottom: '24px' }}>
+                {user.role === 'farmer' ? `📦 ${t('orders.received')}` : `📦 ${t('orders.title')}`}
             </h1>
 
             {orders.length === 0 ? (
-                <div className="text-center py-10 bg-white rounded shadow">
-                    <p className="text-gray-500 mb-4">No orders found.</p>
+                <div style={{ textAlign: 'center', padding: '60px 20px' }}>
+                    <div style={{ fontSize: '56px', marginBottom: '16px' }}>📭</div>
+                    <h3 style={{ color: '#374151', marginBottom: '8px' }}>{t('orders.no_orders')}</h3>
                     {user.role === 'buyer' && (
-                        <Link to="/products" className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
-                            Start Shopping
+                        <Link to="/products" className="btn btn-primary" style={{ marginTop: '16px', textDecoration: 'none' }}>
+                            {t('orders.start_shopping')}
                         </Link>
                     )}
                 </div>
             ) : (
-                <div className="bg-white rounded-lg shadow overflow-hidden">
-                    <div className="overflow-x-auto">
-                        <table className="min-w-full divide-y divide-gray-200">
-                            <thead className="bg-gray-50">
-                                <tr>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Order ID</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody className="bg-white divide-y divide-gray-200">
-                                {orders.map((order) => (
-                                    <tr key={order._id}>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                            #{order._id.slice(-6).toUpperCase()}
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                            {new Date(order.createdAt).toLocaleDateString()}
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                            ₹{order.totalAmount}
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap">
-                                            <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusColor(order.status)}`}>
-                                                {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
-                                            </span>
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                            <Link to={`/orders/${order._id}`} className="text-indigo-600 hover:text-indigo-900">
-                                                View Details
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                    {orders.map((order) => {
+                        const statusStyle = STATUS_COLORS[order.status] || { bg: '#f3f4f6', color: '#374151' };
+                        const isExpanded = expandedOrder === order._id;
+
+                        return (
+                            <div key={order._id} className="order-card card">
+                                {/* Summary row */}
+                                <div
+                                    className="order-card-header"
+                                    onClick={() => setExpandedOrder(isExpanded ? null : order._id)}
+                                    style={{ cursor: 'pointer' }}
+                                >
+                                    <div>
+                                        <span className="order-id">#{order._id.slice(-6).toUpperCase()}</span>
+                                        <span className="order-date">
+                                            {new Date(order.createdAt).toLocaleDateString(currentLang, { day: 'numeric', month: 'short', year: 'numeric' })}
+                                        </span>
+                                    </div>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                                        <span className="order-amount">₹{order.totalAmount}</span>
+                                        <span
+                                            className="order-status-pill"
+                                            style={{ background: statusStyle.bg, color: statusStyle.color }}
+                                        >
+                                            {t(`orders.timeline.${order.status}`, { defaultValue: order.status.charAt(0).toUpperCase() + order.status.slice(1) })}
+                                        </span>
+                                        <span style={{ color: '#9ca3af', fontSize: '18px' }}>{isExpanded ? '▲' : '▼'}</span>
+                                    </div>
+                                </div>
+
+                                {/* Expanded Timeline + details */}
+                                {isExpanded && order.status !== 'cancelled' && (
+                                    <div style={{ borderTop: '1px solid #f0f0f0', paddingTop: '16px', marginTop: '4px' }}>
+                                        <OrderTimeline status={order.status} />
+                                        <div style={{ textAlign: 'right', marginTop: '12px' }}>
+                                            <Link to={`/orders/${order._id}`} className="btn-outline-green">
+                                                {t('orders.view_full')}
                                             </Link>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
+                                        </div>
+                                    </div>
+                                )}
+                                {isExpanded && order.status === 'cancelled' && (
+                                    <div style={{ borderTop: '1px solid #f0f0f0', paddingTop: '12px', marginTop: '4px', color: '#ef4444', fontSize: '14px', textAlign: 'center' }}>
+                                        {t('orders.cancelled_msg')}
+                                        <div style={{ textAlign: 'right', marginTop: '8px' }}>
+                                            <Link to={`/orders/${order._id}`} className="btn-outline-green">{t('orders.view')}</Link>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        );
+                    })}
                 </div>
             )}
         </div>

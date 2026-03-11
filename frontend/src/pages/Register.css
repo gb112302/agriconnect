@@ -1,0 +1,39 @@
+/* Register-specific extras (shares Login.css base) */
+.reg-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+@media (max-width: 480px) {
+  .reg-grid { grid-template-columns: 1fr; }
+}
+
+.field-error {
+  display: block;
+  font-size: 12px;
+  color: #dc2626;
+  margin-top: 4px;
+  font-weight: 500;
+}
+
+/* Password strength */
+.pw-strength {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.pw-bar {
+  display: flex;
+  gap: 4px;
+  flex: 1;
+}
+
+.pw-segment {
+  flex: 1;
+  height: 5px;
+  border-radius: 3px;
+  transition: background 0.3s ease;
+}

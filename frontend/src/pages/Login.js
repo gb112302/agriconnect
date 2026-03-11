@@ -16,6 +16,7 @@ function Login() {
     const [loading, setLoading] = useState(false);
     const [showRoleSelector, setShowRoleSelector] = useState(false);
     const [loggedInUser, setLoggedInUser] = useState(null);
+    const [showPassword, setShowPassword] = useState(false);
 
     const { login, selectRole } = useAuth();
     const navigate = useNavigate();
@@ -80,6 +81,7 @@ function Login() {
         <div className="login-wrapper">
             <div className="login-container">
                 <div className="login-card">
+                    <div className="login-logo">🌾</div>
                     <div className="login-header">
                         <h2>{t('auth.welcome_back')}</h2>
                         <p>{t('auth.login_subtitle')}</p>
@@ -103,15 +105,25 @@ function Login() {
 
                         <div className="form-group">
                             <label htmlFor="password">{t('auth.password')}</label>
-                            <input
-                                type="password"
-                                id="password"
-                                name="password"
-                                value={formData.password}
-                                onChange={handleChange}
-                                placeholder={t('auth.password')}
-                                required
-                            />
+                            <div className="password-wrapper">
+                                <input
+                                    type={showPassword ? 'text' : 'password'}
+                                    id="password"
+                                    name="password"
+                                    value={formData.password}
+                                    onChange={handleChange}
+                                    placeholder={t('auth.password')}
+                                    required
+                                />
+                                <button
+                                    type="button"
+                                    className="password-toggle"
+                                    onClick={() => setShowPassword(p => !p)}
+                                    aria-label={showPassword ? 'Hide password' : 'Show password'}
+                                >
+                                    {showPassword ? '🙈' : '👁️'}
+                                </button>
+                            </div>
                         </div>
 
                         <div className="form-options">

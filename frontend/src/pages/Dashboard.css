@@ -155,13 +155,15 @@
 .dark .db-card h3 { color: #86efac; }
 .dark .db-card p { color: #9ca3af; }
 
-@media (max-width: 600px) {
-  .db-banner { padding: 24px 16px; }
+@media (max-width: 768px) {
+  .db-banner { padding: clamp(24px, 5vw, 40px) 16px; }
+  .db-banner-inner { justify-content: center; text-align: center; }
   .db-avatar { width: 70px; height: 70px; font-size: 40px; }
-  .db-cards-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
-  .db-card { padding: 20px 14px; }
+  .db-meta { justify-content: center; }
+  .db-cards-grid { grid-template-columns: 1fr; gap: 12px; }
+  .db-card { padding: 20px 18px; }
 }
 
-@media (max-width: 380px) {
-  .db-cards-grid { grid-template-columns: 1fr; }
+@media (min-width: 481px) and (max-width: 768px) {
+  .db-cards-grid { grid-template-columns: 1fr 1fr; }
 }

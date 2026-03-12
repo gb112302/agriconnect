@@ -136,7 +136,7 @@
 .dark .pd-detail-val { color: #e5e7eb; }
 .dark .pd-detail-row { border-bottom-color: #2a3a2a; }
 
-@media (max-width: 540px) {
-  .pd-main-img { height: 260px; }
+@media (max-width: 768px) {
+  .pd-main-img { height: 300px; }
   .pd-buy-row { flex-direction: column; align-items: stretch; }
 }

@@ -209,7 +209,7 @@
 .dark .login-footer p { color: #9ca3af; }
 .dark .login-footer { border-top-color: #2a3a2a; }
 
-@media (max-width: 480px) {
-  .login-card { padding: 32px 22px; }
-  .login-header h2 { font-size: 22px; }
+@media (max-width: 768px) {
+  .login-card { padding: 32px 24px; }
+  .login-header h2 { font-size: 24px; }
 }

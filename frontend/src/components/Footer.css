@@ -83,8 +83,8 @@
   color: rgba(255, 255, 255, 0.55);
 }
 
-/* ── Mobile ── */
-@media (max-width: 600px) {
+/* ── Mobile / Tablet ── */
+@media (max-width: 768px) {
   .footer {
     padding-top: 36px;
     margin-top: 40px;
@@ -92,11 +92,16 @@
 
   .footer-grid {
     grid-template-columns: 1fr;
-    gap: 28px;
+    gap: 32px;
     padding-bottom: 28px;
+    text-align: center;
+  }
+  
+  .footer-section {
+    align-items: center;
   }
 
   .footer-container {
-    padding: 0 16px;
+    padding: 0 20px;
   }
 }

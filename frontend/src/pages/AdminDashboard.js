@@ -78,7 +78,7 @@ function AdminDashboard() {
             </h1>
 
             {/* Stats */}
-            <div style={{ gridTemplateColumns: 'repeat(auto-fill,minmax(200px,1fr))', display: 'grid', gap: '16px', marginBottom: '32px' }}>
+            <div style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', display: 'grid', gap: '16px', marginBottom: '32px' }}>
                 {STAT_CARDS.map(s => (
                     <div key={s.label} className="card" style={{ borderLeft: `5px solid ${s.color}`, margin: 0, padding: '20px 24px' }}>
                         <div style={{ fontSize: '28px', marginBottom: '8px' }}>{s.icon}</div>

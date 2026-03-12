@@ -186,7 +186,7 @@
 .dark .cart-summary h3 { color: #86efac; }
 .dark .cart-empty-state h2 { color: #86efac; }
 
-@media (max-width: 540px) {
+@media (max-width: 768px) {
   .cart-card { flex-wrap: wrap; gap: 12px; }
-  .cart-card-right { flex-direction: row; align-items: center; gap: 12px; }
+  .cart-card-right { flex-direction: row; align-items: center; gap: 12px; width: 100%; justify-content: space-between; margin-top: 8px; }
 }

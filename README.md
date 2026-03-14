@@ -173,7 +173,6 @@ agriconnect/
 │   └── .env
 │
 ├── render.yaml                   # Render deployment config
-├── DEPLOYMENT.md                 # Deployment guide
 └── README.md                     # This file
 ```
 
@@ -253,8 +252,6 @@ To redeploy or update:
 3. **IMPORTANT**: Set Root Directory to `frontend` in Settings → General
 4. **Add environment variable**: `REACT_APP_API_URL`
 5. **Deploy**
-
-See [DEPLOYMENT.md](DEPLOYMENT.md) for detailed deployment instructions.
 
 ## 🧪 Testing
 
@@ -414,5 +411,3 @@ Built as a full-stack portfolio project demonstrating:
 ---
 
 **⭐ Star this repo if you found it helpful!**
-
-For detailed deployment instructions, see [DEPLOYMENT.md](DEPLOYMENT.md)

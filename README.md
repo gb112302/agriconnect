@@ -213,9 +213,6 @@ agriconnect/
 | GET    | `/api/bulk-requests/:id`         | Get single request  | Yes           | Any    |
 | POST   | `/api/bulk-requests/:id/respond` | Respond to request  | Yes           | Farmer |
 
-## 🚀 Deployment
-
-*(Optional) If you wish to deploy this to production, follow typical MERN stack deployment guides using services like Render, Vercel, or Netlify.*
 
 ## 🧪 Testing
 

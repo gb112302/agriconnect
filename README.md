@@ -2,15 +2,15 @@
 
 A full-stack MERN application connecting farmers directly with buyers, eliminating middlemen and enabling transparent pricing. Built with modern web technologies and deployed to production.
 
-[![Backend](https://img.shields.io/badge/Backend-Live%20on%20Render-success)](https://agriconnect-backend-3jfy.onrender.com)
-[![MongoDB](https://img.shields.io/badge/Database-MongoDB%20Atlas-green)](https://www.mongodb.com/cloud/atlas)
+[![Backend](https://img.shields.io/badge/Backend-Local-success)](#)
+[![MongoDB](https://img.shields.io/badge/Database-In--Memory%20MongoDB-green)](#)
 [![License](https://img.shields.io/badge/License-ISC-blue.svg)](LICENSE)
 
-## 🚀 Live Demo
+## 🚀 Running Locally
 
-- **Backend API**: [https://agriconnect-backend-3jfy.onrender.com](https://agriconnect-backend-3jfy.onrender.com)
-- **Frontend**: Deploy to Netlify/Vercel (instructions below)
-- **Database**: MongoDB Atlas (Cloud)
+- **Backend API**: Runs locally on `http://localhost:5000/api`
+- **Frontend**: Runs locally on `http://localhost:3000`
+- **Database**: Runs an in-memory MongoDB database automatically, no setup required!
 
 ## ✨ Features
 
@@ -72,7 +72,6 @@ A full-stack MERN application connecting farmers directly with buyers, eliminati
 
 - Node.js (v14 or higher)
 - npm or yarn
-- MongoDB (local) or MongoDB Atlas account
 - Git
 
 ### 1. Clone the Repository
@@ -97,9 +96,9 @@ cp .env.example .env
 # Update .env with your configuration
 # Required variables:
 # - PORT=5000
-# - MONGODB_URI=your_mongodb_connection_string
 # - JWT_SECRET=your_secret_key
 # - NODE_ENV=development
+# Note: No MONGODB_URI is needed - the server will automatically use an in-memory database!
 
 # Start development server
 npm run dev
@@ -216,42 +215,7 @@ agriconnect/
 
 ## 🚀 Deployment
 
-### Backend Deployment (Render)
-
-**Status**: ✅ Already deployed!
-
-Backend is live at: `https://agriconnect-backend-3jfy.onrender.com`
-
-To redeploy or update:
-
-1. Push changes to GitHub
-2. Render auto-deploys from `main` branch
-3. Check deployment logs in Render dashboard
-
-### Frontend Deployment (Netlify - Recommended)
-
-1. **Go to Netlify**: https://app.netlify.com
-2. **Import project**: Click "Add new site" → "Import an existing project"
-3. **Select repository**: `gb112302/agriconnect`
-4. **Configure build settings**:
-   ```
-   Root Directory: frontend
-   Build command: npm run build
-   Publish directory: build
-   ```
-5. **Add environment variable**:
-   ```
-   REACT_APP_API_URL=https://agriconnect-backend-3jfy.onrender.com/api
-   ```
-6. **Deploy!**
-
-### Frontend Deployment (Vercel - Alternative)
-
-1. **Go to Vercel**: https://vercel.com
-2. **Import project** from GitHub
-3. **IMPORTANT**: Set Root Directory to `frontend` in Settings → General
-4. **Add environment variable**: `REACT_APP_API_URL`
-5. **Deploy**
+*(Optional) If you wish to deploy this to production, follow typical MERN stack deployment guides using services like Render, Vercel, or Netlify.*
 
 ## 🧪 Testing
 
@@ -259,10 +223,10 @@ To redeploy or update:
 
 ```bash
 # Health check
-curl https://agriconnect-backend-3jfy.onrender.com/api/health
+curl http://localhost:5000/api/health
 
 # Register user
-curl -X POST https://agriconnect-backend-3jfy.onrender.com/api/auth/register \
+curl -X POST http://localhost:5000/api/auth/register \
   -H "Content-Type: application/json" \
   -d '{"name":"Test User","email":"test@example.com","password":"password123","role":"buyer"}'
 ```
@@ -322,22 +286,14 @@ This feature sets AgriConnect apart from generic e-commerce platforms.
 ```env
 PORT=5000
 NODE_ENV=development
-MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/agriconnect
-JWT_SECRET=your_super_secret_jwt_key_change_in_production
-USE_LOCAL_DB=false
-FRONTEND_URL=https://your-frontend-url.netlify.app
+JWT_SECRET=your_super_secret_jwt_key
+# No MONGODB_URI required for local in-memory DB testing
 ```
 
 ### Frontend (.env)
 
 ```env
 REACT_APP_API_URL=http://localhost:5000/api
-```
-
-### Frontend (.env.production)
-
-```env
-REACT_APP_API_URL=https://agriconnect-backend-3jfy.onrender.com/api
 ```
 
 ## 📈 Future Enhancements

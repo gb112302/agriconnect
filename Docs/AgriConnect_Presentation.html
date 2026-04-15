@@ -1,0 +1,873 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>AgriConnect | Executive Client Presentation 2026</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- CDNs for React and Interactivity -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- Fonts and Icons -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <script>
+      // Premium Branding Config
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              agri: {
+                light: "#f0fdf4",
+                primary: "#15803d",
+                dark: "#14532d",
+                accent: "#facc15",
+              },
+            },
+            fontFamily: {
+              brand: ["Playfair Display", "serif"],
+              sans: ["Inter", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+
+    <style>
+      /* Styling for the "WOW" effect */
+      .glass-card {
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: none;
+        box-shadow: 0 15px 50px 0 rgba(0, 0, 0, 0.08);
+      }
+      .parallax-bg {
+        background-image: url("https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&q=80&w=2832");
+        background-size: cover;
+        background-position: center;
+        filter: brightness(0.65);
+      }
+      @keyframes slideUpFade {
+        from {
+          opacity: 0;
+          transform: translateY(40px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .animate-up {
+        animation: slideUpFade 1s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+      }
+
+      #loading-screen {
+        position: fixed;
+        inset: 0;
+        background: white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        transition: opacity 0.8s ease;
+      }
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+
+      .gradient-text {
+        background: linear-gradient(to right, #15803d, #14532d);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .title-gradient {
+        background: linear-gradient(to right, #facc15, #fefce8, #22c55e);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .logo-gradient {
+        background: linear-gradient(
+          135deg,
+          #fbbf24 0%,
+          #f59e0b 50%,
+          #78350f 100%
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+      }
+    </style>
+  </head>
+  <body class="font-sans text-slate-900 bg-slate-100">
+    <!-- Entry Animation Layer -->
+    <div id="loading-screen">
+      <div
+        class="w-20 h-20 bg-agri-primary rounded-full animate-pulse mb-8 shadow-2xl shadow-agri-primary/20"
+      ></div>
+      <div class="text-center">
+        <h2 class="text-3xl font-brand font-bold tracking-tight title-gradient">
+          AgriConnect
+        </h2>
+        <p
+          class="text-slate-400 font-semibold tracking-[0.3em] uppercase text-[10px] mt-2"
+        >
+          Executive Experience Initializing
+        </p>
+      </div>
+    </div>
+
+    <div id="root"></div>
+
+    <!-- React Presentation Core -->
+    <script type="text/babel">
+      const { useState, useEffect, useRef } = React;
+
+      const slides = [
+        {
+          type: "title",
+          title: "AgriConnect",
+          subtitle: "The Premier Digital Trade Hub for Modern Agriculture",
+          tagline: "Corporate Vision & Technical Architecture 2026",
+          details: [
+            "Direct Farm-to-Market Access",
+            "AI-Powered Intelligence",
+            "Enterprise Security",
+          ],
+        },
+        {
+          id: "marketplace",
+          title: "Marketplace Excellence",
+          subtitle: "Solving the Access Problem",
+          theme: "split_img",
+          image: "./desktop_products_1773331449250.png",
+          content: [
+            "Eliminates the 'Middleman Gap' with direct peer-to-peer listings.",
+            "Dynamic localized availability engine for regional fresh produce.",
+            "Production-ready backend ensuring 99.9% uptime for daily trade.",
+            "Simplified, high-conversion UI for intuitive buyer discovery.",
+          ],
+        },
+        {
+          id: "negotiation",
+          title: "The Negotiation Engine",
+          subtitle: "Exclusive Bulk Request Ecosystem",
+          theme: "strategy",
+          content: {
+            steps: [
+              {
+                icon: "campaign",
+                title: "Public Intent",
+                text: "Buyers post bulk needs with quantity specs and target price ranges.",
+              },
+              {
+                icon: "bolt",
+                title: "Instant Notification",
+                text: "Farmers within the product category receive push alerts via Socket.io.",
+              },
+              {
+                icon: "maps_ugc",
+                title: "Dynamic Offers",
+                text: "Farmers respond with personalized pricing, logistical terms, and custom stock.",
+              },
+              {
+                icon: "verified",
+                title: "Winner Selection",
+                text: "Buyers audit multiple offers and finalize the most competitive bid.",
+              },
+            ],
+          },
+        },
+        {
+          id: "intelligence",
+          title: "Agri-Intelligence",
+          subtitle: "Empowering Decisions with Data",
+          theme: "split_img",
+          image: "./homepage_375px_1773334019239.png",
+          content: [
+            "Real-time regional crop price monitoring for fair-market valuation.",
+            "Integrated weather forecasting to proactively protect farm harvests.",
+            "Market trend analytics visualizing supply/demand cycles via Chart.js.",
+            "Intelligent role-switching dashboards for localized actionable data.",
+          ],
+        },
+        {
+          id: "tech-stack",
+          title: "Enterprise Infrastructure",
+          subtitle: "Modern MERN Stack Implementation",
+          theme: "matrix",
+          data: {
+            "Frontend UI": [
+              "React 18.2 Functional Design",
+              "Tailwind CSS & Glassmorphism",
+              "React Router 6 SPA",
+              "i18next Global Multi-language",
+            ],
+            "Commerce Core": [
+              "Node.js 20+ Runtime",
+              "Express.js 5 API Architecture",
+              "Socket.io (Real-time updates)",
+              "Mongoose Schema Logic",
+            ],
+            "Security Layer": [
+              "bcryptjs Password Security",
+              "JWT Token Identity Hub",
+              "Role-Based Access (RBAC)",
+              "Protected Service Middleware",
+            ],
+            "Data Storage": [
+              "MongoDB Atlas Performance",
+              "Indexing & Aggregations",
+              "Sub-document Schema Design",
+              "Relational Consistency Units",
+            ],
+          },
+        },
+        {
+          id: "database",
+          title: "Relational Data Hub",
+          subtitle: "Structured for Scale and Reliability",
+          theme: "schema",
+          models: [
+            {
+              name: "User",
+              fields: [
+                "name",
+                "email",
+                "password (Hashed)",
+                "role (Farmer/Buyer)",
+                "location (State/District)",
+              ],
+            },
+            {
+              name: "Product",
+              fields: [
+                "farmerId",
+                "name",
+                "price",
+                "stock",
+                "category",
+                "images",
+                "avgRating",
+              ],
+            },
+            {
+              name: "Order",
+              fields: [
+                "buyerId",
+                "farmerId",
+                "items",
+                "total",
+                "status (Pending/Delivered)",
+                "payment",
+              ],
+            },
+            {
+              name: "Review",
+              fields: [
+                "productId",
+                "buyerId",
+                "rating",
+                "comment",
+                "verifiedPurchase",
+              ],
+            },
+          ],
+        },
+        {
+          id: "foundation",
+          title: "Security Foundations",
+          subtitle: "Protecting Users and Data",
+          theme: "split_img",
+          image: "./test_user_registration_1773331190784.webp",
+          content: [
+            "End-to-end encryption for sensitive user information and auth.",
+            "Rigorous server-side sanitization preventing XSS and Injection.",
+            "JWT-based session management with expiration and renewal.",
+            "Consistent CORS and header protection for production deployments.",
+          ],
+        },
+        {
+          id: "roles",
+          title: "Dual-Role Architecture",
+          subtitle: "Tailored Multi-User Capabilities",
+          theme: "dual_panel",
+          panels: [
+            {
+              title: "Farmer Dashboard",
+              color: "agri-primary",
+              items: [
+                "Full Inventory Control",
+                "Real-time Order Management",
+                "Bulk Bid Response Interface",
+                "Revenue & Stock Analytics",
+              ],
+            },
+            {
+              title: "Buyer Dashboard",
+              color: "slate-800",
+              items: [
+                "Curated Product Discovery",
+                "Universal Shopping Cart",
+                "Bulk Request Negotiation",
+                "Verified Order History",
+              ],
+            },
+          ],
+        },
+        {
+          id: "responsiveness",
+          title: "Field-Ready Access",
+          subtitle: "Mobile Excellence Anywhere",
+          theme: "split_img",
+          image: "./dashboard_375px_1773334584538.png",
+          content: [
+            "Engineered for low-bandwidth mobile environments in farm fields.",
+            "100% responsive fluid grids from 375px mobile to Ultra-Wide desktop.",
+            "Modern CSS stack ensuring high-performance rendering on old devices.",
+            "Role-specific layouts optimized for mobile productivity and trade.",
+          ],
+        },
+        {
+          id: "features",
+          title: "Interconnected Services",
+          subtitle: "The AgriConnect Ecosystem",
+          theme: "circle",
+          modules: [
+            {
+              name: "Real-time Chat",
+              text: "Direct Socket.io messaging between Farmer and Buyer.",
+            },
+            {
+              name: "Reputation Engine",
+              text: "Weighted review system with average rating aggregation.",
+            },
+            {
+              name: "Commerce Utils",
+              text: "Universal cart management and role-based discount logic.",
+            },
+            {
+              name: "Audit Tools",
+              text: "Comprehensive log of trade actions and status transitions.",
+            },
+          ],
+        },
+        {
+          id: "roadmap",
+          title: "Strategic Roadmap",
+          subtitle: "The Path to Production and Beyond",
+          theme: "split_img",
+          image: "./dashboard_1024px_1773332854315.png",
+          content: [
+            "Phase 1: Native Mobile App via React Native for offline field use.",
+            "Phase 2: Cloudinary AI integration for product quality verification.",
+            "Phase 3: Financial inclusion tools (Micro-loans and Agri-Insurance).",
+            "Phase 4: Global export module for regional wholesaler connections.",
+          ],
+        },
+        {
+          id: "demo-credentials",
+          title: "Live Demo Access",
+          subtitle: "Test Credentials for All User Roles",
+          theme: "credentials",
+          note: "⚠️ In-memory DB — re-register after each backend restart. Admin requires running: node createAdmin.js",
+          accounts: [
+            {
+              role: "Farmer",
+              icon: "agriculture",
+              color: "agri-primary",
+              email: "farmer@test.com",
+              password: "password123",
+              action: "Register at /register → select Farmer",
+              perks: ["Add & manage products", "View incoming orders", "Respond to bulk bids"],
+            },
+            {
+              role: "Buyer",
+              icon: "shopping_cart",
+              color: "slate-700",
+              email: "buyer@test.com",
+              password: "password123",
+              action: "Register at /register → select Buyer",
+              perks: ["Browse & buy produce", "Cart & checkout", "Create bulk requests"],
+            },
+            {
+              role: "Admin",
+              icon: "admin_panel_settings",
+              color: "agri-dark",
+              email: "admin@agriconnect.com",
+              password: "Admin@123",
+              action: "Run: node createAdmin.js",
+              perks: ["Full platform control", "User management", "Analytics & reports"],
+            },
+          ],
+        },
+        {
+          type: "end",
+          title: "Digitizing Agriculture",
+          subtitle: "Let's Scale the Green Economy Together.",
+          cta: "Govind Chaudhari",
+          contact: "+919016614829",
+          whatsapp: "https://wa.me/919016614829",
+          Mail: "gb2302gb@gmail.com",
+        },
+      ];
+
+      function App() {
+        useEffect(() => {
+          // Fade out loader
+          const loader = document.getElementById("loading-screen");
+          if (loader) {
+            setTimeout(() => {
+              loader.style.opacity = "0";
+              setTimeout(() => (loader.style.display = "none"), 800);
+            }, 1200);
+          }
+        }, []);
+
+        const renderSlide = (slide) => {
+          if (slide.type === "title") {
+            return (
+              <div className="min-h-screen flex flex-col items-center justify-center bg-agri-dark text-white relative overflow-hidden">
+                <div className="absolute inset-0 parallax-bg opacity-40"></div>
+                <div className="relative z-10 text-center animate-up px-6 md:px-8">
+                  <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-[11rem] font-brand leading-none mb-4 tracking-tighter drop-shadow-2xl title-gradient">
+                    {slide.title}
+                  </h1>
+                  <p className="text-xl sm:text-2xl md:text-3xl font-light mb-12 sm:mb-20 italic max-w-4xl mx-auto title-gradient opacity-90">
+                    {slide.subtitle}
+                  </p>
+                  <div className="flex flex-wrap justify-center gap-6 sm:gap-14 pt-8 sm:pt-16">
+                    {slide.details.map((d, i) => (
+                      <div key={i} className="flex items-center gap-4">
+                        <span className="material-icons text-agri-accent text-3xl">
+                          verified
+                        </span>
+                        <span className="text-xs font-bold tracking-[0.2em] uppercase text-white/80">
+                          {d}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            );
+          }
+
+          if (slide.theme === "split_img") {
+            return (
+              <div className="min-h-screen grid grid-cols-1 lg:grid-cols-2 p-6 pt-32 sm:p-12 sm:pt-40 lg:p-24 lg:pt-32 bg-white items-center gap-12 sm:gap-20">
+                <div className="animate-up">
+                  <div className="flex items-center gap-4 sm:gap-5 mb-6 sm:mb-10">
+                    <span className="h-1 w-12 sm:w-20 bg-agri-primary rounded-full"></span>
+                    <span className="text-agri-primary font-black tracking-[0.3em] sm:tracking-[0.4em] text-[9px] sm:text-[10px] uppercase">
+                      Core Capability
+                    </span>
+                  </div>
+                  <h2 className="text-4xl sm:text-6xl lg:text-7xl font-brand text-slate-900 mb-4">
+                    {slide.title}
+                  </h2>
+                  <h3 className="text-xl sm:text-2xl text-agri-primary font-medium mb-8 sm:mb-12 italic border-l-4 border-agri-accent pl-4 sm:pl-6">
+                    {slide.subtitle}
+                  </h3>
+                  <div className="space-y-6 sm:space-y-8">
+                    {slide.content.map((c, i) => (
+                      <div key={i} className="flex gap-6 items-start">
+                        <div className="w-10 h-10 bg-agri-light rounded-2xl flex items-center justify-center flex-shrink-0">
+                          <span className="material-icons text-agri-primary text-xl">
+                            check
+                          </span>
+                        </div>
+                        <p className="text-lg text-slate-500 leading-relaxed font-medium">
+                          {c}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div
+                  className="hidden lg:flex justify-center relative animate-up"
+                  style={{ animationDelay: "0.2s" }}
+                >
+                  <div className="absolute inset-0 bg-agri-primary/10 rounded-[80px] blur-3xl transform rotate-12 scale-90 translate-x-12"></div>
+                  <img
+                    src={slide.image}
+                    className="relative z-10 glass-card rounded-[40px] shadow-[0_50px_100px_-20px_rgba(0,0,0,0.1)] max-h-[75vh] object-contain transform hover:scale-[1.02] transition-transform duration-700"
+                  />
+                </div>
+              </div>
+            );
+          }
+
+          if (slide.theme === "strategy") {
+            return (
+              <div className="min-h-screen p-6 pt-32 sm:p-16 sm:pt-40 lg:p-32 lg:pt-40 bg-agri-light flex flex-col justify-center">
+                <div className="mb-12 sm:mb-20 animate-up max-w-4xl">
+                  <h2 className="text-4xl sm:text-6xl lg:text-7xl font-brand text-agri-dark mb-4 sm:mb-6">
+                    {slide.title}
+                  </h2>
+                  <p className="text-lg sm:text-2xl text-slate-400 font-medium tracking-wide uppercase italic">
+                    {slide.subtitle}
+                  </p>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-10">
+                  {slide.content.steps.map((s, i) => (
+                    <div
+                      key={i}
+                      className="bg-white p-8 sm:p-12 rounded-[2rem] sm:rounded-[3rem] shadow-2xl shadow-agri-primary/5 transition-all duration-500 animate-up group"
+                      style={{ animationDelay: `${i * 0.2}s` }}
+                    >
+                      <div className="w-20 h-20 bg-agri-primary rounded-[2rem] flex items-center justify-center mb-10 shadow-xl shadow-agri-primary/20 transform group-hover:-rotate-6 transition-transform">
+                        <span className="material-icons text-white text-3xl">
+                          {s.icon}
+                        </span>
+                      </div>
+                      <h4 className="text-2xl font-bold mb-6 text-slate-900">
+                        {s.title}
+                      </h4>
+                      <p className="text-slate-500 leading-relaxed text-lg font-medium">
+                        {s.text}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            );
+          }
+
+          if (slide.theme === "matrix") {
+            return (
+              <div className="min-h-screen p-6 pt-32 sm:p-24 sm:pt-40 bg-slate-900 text-white flex flex-col justify-center overflow-hidden relative">
+                <div className="absolute bottom-0 right-0 w-[400px] sm:w-[800px] h-[400px] sm:h-[800px] bg-agri-primary/5 rounded-full blur-[100px] sm:blur-[150px] -mr-48 sm:-mr-96 -mb-48 sm:-mb-96"></div>
+                <div className="relative z-10">
+                  <h2 className="text-4xl sm:text-6xl lg:text-7xl font-brand mb-12 sm:mb-20 animate-up tracking-tight">
+                    {slide.title}
+                  </h2>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-12">
+                    {Object.entries(slide.data).map(([cat, items], idx) => (
+                      <div
+                        key={idx}
+                        className="glass-card bg-white/5 p-8 sm:p-10 rounded-[2rem] sm:rounded-[3rem] animate-up hover:bg-white/10 transition-colors"
+                        style={{ animationDelay: `${idx * 0.15}s` }}
+                      >
+                        <h4 className="text-agri-accent font-black uppercase tracking-[0.3em] sm:tracking-[0.4em] text-[10px] sm:text-[11px] mb-6 sm:mb-10 font-mono pb-4 sm:pb-6">
+                          {cat}
+                        </h4>
+                        <ul className="space-y-6">
+                          {items.map((it, i) => (
+                            <li
+                              key={i}
+                              className="flex gap-4 text-slate-300 items-start"
+                            >
+                              <span className="w-2 h-2 rounded-full bg-agri-primary mt-2 flex-shrink-0 animate-pulse"></span>
+                              <span className="font-medium text-base tracking-wide">
+                                {it}
+                              </span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            );
+          }
+
+          if (slide.theme === "schema") {
+            return (
+              <div className="min-h-screen p-6 pt-32 sm:p-24 sm:pt-40 bg-slate-50 flex flex-col justify-center">
+                <h2 className="text-4xl sm:text-6xl lg:text-7xl font-brand mb-12 sm:mb-24 animate-up text-slate-900">
+                  {slide.title}
+                </h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-10">
+                  {slide.models.map((m, i) => (
+                    <div
+                      key={i}
+                      className="bg-white rounded-[2rem] sm:rounded-[3rem] overflow-hidden shadow-2xl shadow-slate-200/50 animate-up"
+                      style={{ animationDelay: `${i * 0.1}s` }}
+                    >
+                      <div className="bg-agri-primary p-6 sm:p-7 text-white font-bold flex justify-between items-center shadow-lg">
+                        <span className="text-lg sm:text-xl tracking-tight">
+                          {m.name}
+                        </span>
+                        <div className="px-3 py-1 bg-white/20 rounded-xl text-[9px] uppercase font-black tracking-widest">
+                          Model Schema
+                        </div>
+                      </div>
+                      <div className="p-10">
+                        <ul className="space-y-4">
+                          {m.fields.map((f, j) => (
+                            <li
+                              key={j}
+                              className="text-xs font-mono text-slate-500 p-3 bg-slate-50 rounded-2xl"
+                            >
+                              {f}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            );
+          }
+
+          if (slide.theme === "dual_panel") {
+            return (
+              <div className="min-h-screen flex flex-col lg:flex-row">
+                {slide.panels.map((p, i) => (
+                  <div
+                    key={i}
+                    className={`flex-1 p-8 pt-32 sm:p-24 sm:pt-40 flex flex-col justify-center relative overflow-hidden ${i === 0 ? "bg-agri-primary text-white" : "bg-slate-800 text-white"}`}
+                  >
+                    <div className="absolute inset-0 opacity-10 pointer-events-none">
+                      <div className="h-full w-full grid grid-cols-8 grid-rows-8">
+                        {[...Array(64)].map((_, j) => (
+                          <div key={j} className=""></div>
+                        ))}
+                      </div>
+                    </div>
+                    <div
+                      className="relative z-10 animate-up"
+                      style={{ animationDelay: `${i * 0.3}s` }}
+                    >
+                      <h2 className="text-5xl sm:text-7xl lg:text-8xl font-brand mb-8 sm:mb-16 tracking-tighter">
+                        {p.title}
+                      </h2>
+                      <div className="space-y-6 sm:space-y-10">
+                        {p.items.map((item, j) => (
+                          <div
+                            key={j}
+                            className="flex gap-4 sm:gap-10 items-center group"
+                          >
+                            <div
+                              className={`w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-agri-accent shadow-[0_0_20px_rgba(250,204,21,0.5)] transform group-hover:scale-150 transition-transform`}
+                            ></div>
+                            <span className="text-xl sm:text-3xl font-light tracking-wide">
+                              {item}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            );
+          }
+
+          if (slide.theme === "circle") {
+            return (
+              <div className="min-h-screen p-6 pt-32 sm:p-24 sm:pt-40 flex flex-col justify-center relative bg-white items-center text-center">
+                <div className="relative z-10 max-w-6xl animate-up">
+                  <h2 className="text-4xl sm:text-6xl lg:text-7xl font-brand mb-4 sm:mb-6 text-agri-dark tracking-tighter">
+                    {slide.title}
+                  </h2>
+                  <p className="text-xl sm:text-3xl font-light text-agri-primary italic mb-12 sm:mb-24 max-w-3xl mx-auto">
+                    {slide.subtitle}
+                  </p>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 sm:gap-14 text-left">
+                    {slide.modules.map((m, i) => (
+                      <div
+                        key={i}
+                        className="p-8 sm:p-14 rounded-[2rem] sm:rounded-[5rem] transition-all duration-700 hover:shadow-2xl hover:bg-slate-50 group flex gap-6 sm:gap-10 items-center"
+                      >
+                        <div className="w-16 h-16 sm:w-20 sm:h-20 bg-agri-light rounded-full flex items-center justify-center group-hover:bg-agri-primary transition-colors duration-700 flex-shrink-0">
+                          <span className="material-icons text-agri-primary group-hover:text-white transition-colors duration-700 text-3xl sm:text-4xl">
+                            dynamic_feed
+                          </span>
+                        </div>
+                        <div>
+                          <h4 className="text-xl sm:text-3xl font-bold mb-2 sm:mb-4 group-hover:text-agri-primary transition-colors duration-700 text-slate-800 tracking-tight">
+                            {m.name}
+                          </h4>
+                          <p className="text-slate-500 text-base sm:text-xl leading-relaxed font-medium">
+                            {m.text}
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            );
+          }
+
+          if (slide.theme === "credentials") {
+            const colorMap = {
+              "agri-primary": { bg: "#15803d", light: "#f0fdf4", text: "#15803d" },
+              "slate-700":    { bg: "#334155", light: "#f1f5f9", text: "#334155" },
+              "agri-dark":    { bg: "#14532d", light: "#dcfce7", text: "#14532d" },
+            };
+            return (
+              <div className="min-h-screen p-6 pt-28 sm:p-16 sm:pt-36 lg:p-24 lg:pt-36 bg-slate-900 text-white flex flex-col justify-center">
+                <div className="mb-10 sm:mb-16 animate-up">
+                  <h2 className="text-4xl sm:text-6xl lg:text-7xl font-brand tracking-tight mb-3">{slide.title}</h2>
+                  <p className="text-lg sm:text-2xl text-slate-400 italic">{slide.subtitle}</p>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-10 animate-up" style={{animationDelay:"0.2s"}}>
+                  {slide.accounts.map((acc, i) => {
+                    const c = colorMap[acc.color] || colorMap["agri-primary"];
+                    return (
+                      <div key={i} className="rounded-[2rem] overflow-hidden shadow-2xl" style={{background:"rgba(255,255,255,0.05)", border:"1px solid rgba(255,255,255,0.08)"}}>
+                        {/* Card Header */}
+                        <div className="p-6 sm:p-8 flex items-center gap-5" style={{background: c.bg}}>
+                          <div className="w-14 h-14 rounded-2xl flex items-center justify-center" style={{background:"rgba(255,255,255,0.15)"}}>
+                            <span className="material-icons text-white text-3xl">{acc.icon}</span>
+                          </div>
+                          <div>
+                            <div className="text-[10px] font-black tracking-[0.3em] uppercase text-white/60 mb-1">Role</div>
+                            <div className="text-2xl sm:text-3xl font-brand text-white">{acc.role}</div>
+                          </div>
+                        </div>
+                        {/* Credentials */}
+                        <div className="p-6 sm:p-8 space-y-4">
+                          <div className="rounded-2xl p-4" style={{background:"rgba(255,255,255,0.07)"}}>
+                            <div className="text-[9px] uppercase tracking-[0.3em] text-slate-400 font-black mb-1">📧 Email</div>
+                            <div className="font-mono text-sm sm:text-base text-white font-bold">{acc.email}</div>
+                          </div>
+                          <div className="rounded-2xl p-4" style={{background:"rgba(255,255,255,0.07)"}}>
+                            <div className="text-[9px] uppercase tracking-[0.3em] text-slate-400 font-black mb-1">🔑 Password</div>
+                            <div className="font-mono text-sm sm:text-base text-white font-bold">{acc.password}</div>
+                          </div>
+                          <div className="rounded-2xl p-4" style={{background:"rgba(255,255,255,0.04)"}}>
+                            <div className="text-[9px] uppercase tracking-[0.3em] text-slate-400 font-black mb-2">🚀 How to Access</div>
+                            <div className="text-xs sm:text-sm text-slate-300 font-medium">{acc.action}</div>
+                          </div>
+                          <ul className="space-y-2 pt-2">
+                            {acc.perks.map((p, j) => (
+                              <li key={j} className="flex items-center gap-3 text-slate-300 text-sm">
+                                <span className="w-2 h-2 rounded-full flex-shrink-0" style={{background: c.bg}}></span>
+                                {p}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+                {/* Warning note */}
+                <div className="mt-8 sm:mt-12 animate-up rounded-2xl p-4 sm:p-6 border border-yellow-400/30 text-yellow-300 text-sm sm:text-base font-medium" style={{background:"rgba(250,204,21,0.07)", animationDelay:"0.4s"}}>
+                  <span className="material-icons text-yellow-400 align-middle mr-2 text-lg">warning</span>
+                  {slide.note}
+                </div>
+              </div>
+            );
+          }
+
+          if (slide.type === "end") {
+            return (
+              <div className="min-h-screen flex flex-col items-center justify-center text-center p-8 pt-32 sm:p-12 sm:pt-40 bg-agri-light text-agri-dark relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-[80vw] sm:w-[60vw] h-[80vw] sm:h-[60vw] bg-agri-primary/5 rounded-full blur-[80px] sm:blur-[100px] -mr-32 sm:-mr-64 -mt-32 sm:-mt-64"></div>
+                <div className="relative z-10 animate-up flex flex-col items-center">
+                  <div className="w-20 h-20 sm:w-28 sm:h-28 bg-gradient-to-br from-agri-primary to-agri-dark rounded-[2rem] sm:rounded-[3rem] flex items-center justify-center mb-10 sm:mb-16 shadow-2xl rotate-12 hover:rotate-0 transition-transform duration-700 cursor-pointer">
+                    <span className="material-icons text-white text-4xl sm:text-5xl">
+                      auto_awesome
+                    </span>
+                  </div>
+                  <h2 className="text-6xl sm:text-8xl lg:text-9xl font-brand leading-none mb-4 sm:mb-6 tracking-tighter text-agri-dark">
+                    {slide.title}
+                  </h2>
+                  <p className="text-xl sm:text-3xl font-light text-slate-500 mb-12 sm:mb-20 tracking-wide uppercase">
+                    {slide.subtitle}
+                  </p>
+                  <a
+                    href="https://github.com/gb112302"
+                    target="_blank"
+                    className="inline-block bg-agri-primary text-white px-12 sm:px-24 py-4 sm:py-8 rounded-full text-lg sm:text-2xl font-bold hover:bg-agri-dark transition-all duration-500 shadow-[0_25px_60px_-15px_rgba(21,128,61,0.4)] transform hover:-translate-y-2 active:scale-95"
+                  >
+                    {slide.cta}
+                  </a>
+                  <div className="mt-12 sm:mt-20 flex flex-col items-center gap-6 sm:gap-8">
+                    <div className="flex flex-wrap justify-center gap-6 sm:gap-10">
+                      <a
+                        href={slide.whatsapp}
+                        target="_blank"
+                        className="flex items-center gap-3 text-agri-primary hover:text-agri-dark transition-colors group"
+                      >
+                        <div className="w-10 h-10 bg-agri-light rounded-full flex items-center justify-center group-hover:bg-agri-primary group-hover:text-white transition-all">
+                          <span className="material-icons text-xl">chat</span>
+                        </div>
+                        <span className="font-bold text-base sm:text-lg">
+                          WhatsApp
+                        </span>
+                      </a>
+                      <a
+                        href={`mailto:${slide.Mail}`}
+                        className="flex items-center gap-3 text-agri-primary hover:text-agri-dark transition-colors group"
+                      >
+                        <div className="w-10 h-10 bg-agri-light rounded-full flex items-center justify-center group-hover:bg-agri-primary group-hover:text-white transition-all">
+                          <span className="material-icons text-xl">mail</span>
+                        </div>
+                        <span className="font-bold text-base sm:text-lg">
+                          Email
+                        </span>
+                      </a>
+                    </div>
+                    <a
+                      href={`tel:${slide.contact}`}
+                      className="mt-8 flex items-center gap-3 text-agri-dark hover:text-agri-primary transition-colors duration-300"
+                    >
+                      <span className="material-icons text-xl">call</span>
+                      <span className="text-2xl sm:text-3xl font-bold tracking-tight">
+                        {slide.contact}
+                      </span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            );
+          }
+        };
+
+        return (
+          <div className="relative w-full bg-white">
+            {/* Header Persistent Branding */}
+            <div className="fixed top-0 left-0 right-0 z-50 flex items-center gap-4 sm:gap-6 p-6 sm:p-8 lg:p-12 pointer-events-none">
+              <div className="w-10 h-10 sm:w-14 sm:h-14 bg-white/90 backdrop-blur rounded-xl sm:rounded-[1.5rem] flex items-center justify-center shadow-xl pointer-events-auto">
+                <span className="material-icons text-agri-primary text-2xl sm:text-3xl">
+                  spa
+                </span>
+              </div>
+              <span className="font-bold text-2xl sm:text-3xl tracking-tighter logo-gradient pointer-events-auto">
+                AgriConnect<span className="text-agri-primary">.</span>
+              </span>
+            </div>
+
+            <div className="w-full">
+              {slides.map((slide, index) => (
+                <section key={index} className="min-h-screen relative">
+                  {renderSlide(slide)}
+                </section>
+              ))}
+            </div>
+          </div>
+        );
+      }
+
+      // Final Render Trigger
+      const root = ReactDOM.createRoot(document.getElementById("root"));
+      root.render(<App />);
+    </script>
+  </body>
+</html>
